@@ -1,0 +1,11 @@
+{
+  "refresh": {
+    "type": "full",
+    "objects": [
+      {
+        "database": "Logical-Partitioning",
+        "table": "orders-partitioned"
+      }
+    ]
+  }
+}

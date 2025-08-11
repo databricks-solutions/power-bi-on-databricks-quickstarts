@@ -1,0 +1,32 @@
+// DAX Query
+    DEFINE
+        VAR __DS0FilterTable = 
+            TREATAS({"AFRICA"}, 'region'[r_name])
+
+        VAR __DS0FilterTable2 = 
+            TREATAS({"ALGERIA"}, 'nation'[n_name])
+
+        VAR __DS0FilterTable3 = 
+            TREATAS({"Manufacturer#1"}, 'part'[p_mfgr])
+
+        VAR __DS0Core = 
+            SUMMARIZECOLUMNS(
+                'nation'[n_name],
+                'region'[r_name],
+                __DS0FilterTable,
+                __DS0FilterTable2,
+                __DS0FilterTable3,
+                "Suml_discount", CALCULATE(SUM('lineitem'[l_discount])),
+                "Suml_quantity", CALCULATE(SUM('lineitem'[l_quantity])),
+                "Minl_shipdate", CALCULATE(MIN('lineitem'[l_shipdate])),
+                "Countl_orderkey", CALCULATE(COUNTA('lineitem'[l_orderkey]))
+            )
+
+        VAR __DS0PrimaryWindowed = 
+            TOPN(501, __DS0Core, 'nation'[n_name], 1, 'region'[r_name], 1)
+
+    EVALUATE
+        __DS0PrimaryWindowed
+
+    ORDER BY
+        'nation'[n_name], 'region'[r_name]

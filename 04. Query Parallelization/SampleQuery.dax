@@ -1,0 +1,34 @@
+DEFINE
+	VAR __DS0Core = 
+		SUMMARIZECOLUMNS(
+			'region'[r_name],
+			"v_TotalPrice01", 'MeasuresTable'[_TotalPrice01],
+			"v_TotalPrice02", 'MeasuresTable'[_TotalPrice02],
+			"v_TotalPrice03", 'MeasuresTable'[_TotalPrice03],
+			"v_TotalPrice04", 'MeasuresTable'[_TotalPrice04],
+			"v_TotalPrice05", 'MeasuresTable'[_TotalPrice05],
+			"v_TotalPrice06", 'MeasuresTable'[_TotalPrice06],
+			"v_TotalPrice07", 'MeasuresTable'[_TotalPrice07],
+			"v_TotalPrice08", 'MeasuresTable'[_TotalPrice08],
+			"v_TotalPrice09", 'MeasuresTable'[_TotalPrice09],
+			"v_TotalPrice10", 'MeasuresTable'[_TotalPrice10],
+			"v_TotalPrice11", 'MeasuresTable'[_TotalPrice11],
+			"v_TotalPrice12", 'MeasuresTable'[_TotalPrice12],
+			"v_TotalPrice13", 'MeasuresTable'[_TotalPrice13],
+			"v_TotalPrice14", 'MeasuresTable'[_TotalPrice14],
+			"v_TotalPrice15", 'MeasuresTable'[_TotalPrice15],
+			"v_TotalPrice16", 'MeasuresTable'[_TotalPrice16],
+			"v_TotalPrice17", 'MeasuresTable'[_TotalPrice17],
+			"v_TotalPrice18", 'MeasuresTable'[_TotalPrice18],
+			"v_TotalPrice19", 'MeasuresTable'[_TotalPrice19],
+			"v_TotalPrice20", 'MeasuresTable'[_TotalPrice20]
+		)
+
+	VAR __DS0PrimaryWindowed = 
+		TOPN(501, __DS0Core, 'region'[r_name], 1)
+
+EVALUATE
+	__DS0PrimaryWindowed
+
+ORDER BY
+	'region'[r_name]

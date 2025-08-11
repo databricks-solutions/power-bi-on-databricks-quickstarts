@@ -1,0 +1,18 @@
+﻿// DAX Query
+DEFINE
+	VAR __DS0Core = 
+		SUMMARIZECOLUMNS(
+			ROLLUPADDISSUBTOTAL('nation'[n_name], "IsGrandTotalRowTotal"),
+			"Suml_discount", CALCULATE(SUM('lineitem_agg'[l_discount])),
+			"Suml_quantity", CALCULATE(SUM('lineitem_agg'[l_quantity])),
+			"Minl_shipdate", CALCULATE(MIN('lineitem_agg'[l_shipdate]))
+		)
+
+	VAR __DS0PrimaryWindowed = 
+		TOPN(502, __DS0Core, [IsGrandTotalRowTotal], 0, 'nation'[n_name], 1)
+
+EVALUATE
+	__DS0PrimaryWindowed
+
+ORDER BY
+	[IsGrandTotalRowTotal] DESC, 'nation'[n_name]

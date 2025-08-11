@@ -1,0 +1,162 @@
+{
+  "createOrReplace": {
+    "object": {
+      "database": "Logical-Partitioning",
+	  "table": "orders-non-partitioned"
+    },
+    "table": {
+      "name": "orders-non-partitioned",
+      "columns": [
+        {
+          "name": "o_orderkey",
+          "dataType": "int64",
+          "sourceColumn": "o_orderkey",
+          "formatString": "0",
+          "summarizeBy": "sum",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_custkey",
+          "dataType": "int64",
+          "sourceColumn": "o_custkey",
+          "formatString": "0",
+          "summarizeBy": "sum",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_orderstatus",
+          "dataType": "string",
+          "sourceColumn": "o_orderstatus",
+          "summarizeBy": "none",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_totalprice",
+          "dataType": "double",
+          "sourceColumn": "o_totalprice",
+          "summarizeBy": "sum",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            },
+            {
+              "name": "PBI_FormatHint",
+              "value": "{\"isGeneralNumber\":true}"
+            }
+          ]
+        },
+        {
+          "name": "o_orderdate",
+          "dataType": "dateTime",
+          "sourceColumn": "o_orderdate",
+          "formatString": "Long Date",
+          "summarizeBy": "none",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            },
+            {
+              "name": "UnderlyingDateTimeDataType",
+              "value": "Date"
+            }
+          ]
+        },
+        {
+          "name": "o_orderpriority",
+          "dataType": "string",
+          "sourceColumn": "o_orderpriority",
+          "summarizeBy": "none",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_clerk",
+          "dataType": "string",
+          "sourceColumn": "o_clerk",
+          "summarizeBy": "none",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_shippriority",
+          "dataType": "int64",
+          "sourceColumn": "o_shippriority",
+          "formatString": "0",
+          "summarizeBy": "sum",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        },
+        {
+          "name": "o_comment",
+          "dataType": "string",
+          "sourceColumn": "o_comment",
+          "summarizeBy": "none",
+          "annotations": [
+            {
+              "name": "SummarizationSetBy",
+              "value": "Automatic"
+            }
+          ]
+        }
+      ],
+      "partitions": [
+        {
+          "name": "orders",
+          "dataView": "full",
+          "source": {
+            "type": "m",
+            "expression": [
+              "let",
+              "    Source = Databricks.Catalogs(ServerHostname, HttpPath, null),",
+              "    samples_Database = Source{[Name=\"samples\",Kind=\"Database\"]}[Data],",
+              "    tpch_Schema = samples_Database{[Name=\"tpch\",Kind=\"Schema\"]}[Data],",
+              "    orders_Table = tpch_Schema{[Name=\"orders\",Kind=\"Table\"]}[Data]",
+              "in",
+              "    orders_Table"
+            ]
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "name": "PBI_NavigationStepName",
+          "value": "Navigation"
+        },
+        {
+          "name": "PBI_ResultType",
+          "value": "Table"
+        }
+      ]
+    }
+  }
+}
+
