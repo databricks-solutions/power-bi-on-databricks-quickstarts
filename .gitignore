@@ -3,3 +3,8 @@
 __pycache__
 .idea/
 .env
+
+*.pbix
+_*
+**/.DS_Store
+*.log
