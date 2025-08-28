@@ -225,8 +225,8 @@ if RefreshDataset == "true":
 
 The notebook can be used in a [Lakeflow job](https://docs.databricks.com/aws/en/jobs/) for automated execution.
 Sample task configuration and parameters are shown below.
-![Task Configuration](./images/Task-Configuration.png)
-![Task Parameters](./images/Task-Parameters.png)
+<p align="center"> <img width="500" src="./images/Task-Configuration.png" /> </p>
+<p align="center"> <img width="500" src="./images/Task-Parameters.png" /> </p>
 
 Alternatively, you can define parameters using JSON as shown below.
 ```json
