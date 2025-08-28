@@ -10,7 +10,7 @@ For quick access to [this repository](.) and [Best Practices Cheat Sheet](https:
 
 | QuickStart Samples repo | Best Practices Cheat Sheet |
 | ------ | ----------- |
-| <p align="center"> <img width="35%" src="./images/qrcode-repo.png" /> </p> | <p align="center"> <img width="30%" src="./images/qrcode-cheatsheet.png" /> </p> |
+| <p align="center"> <img width="100" src="./images/qrcode-repo.png" /> </p> | <p align="center"> <img width="100" src="./images/qrcode-cheatsheet.png" /> </p> |
 
 
 
@@ -31,7 +31,7 @@ For quick access to [this repository](.) and [Best Practices Cheat Sheet](https:
 | 10   | [Pushdown Calculations](10.%20Pushdown%20Calculations/)    |  Improve Power BI DirectQuery performance by pushing calculations down to Databricks SQL  |
 | 11   | [Generated vs Persisted dimensions](./11.%20Generated%20vs%20Persisted%20dimension/)    |  Improve Power BI DirectQuery performance by using generated vs persisted dimension tables  |
 | 12   | [Collations](./12.%20Collations/)    |  Use Collations for case-insensitive search and filtering  |
-
+| 13   | [M2M OAuth Credentials Management](./12.%20Collations/)    |  Use M2M OAuth authentication for non-interactive workloads  |
 
 
 ## How to get help
@@ -41,7 +41,9 @@ Databricks support doesn't cover this content. For questions or bugs, please ope
 
 ## License
 
-&copy; 2025 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the [Databricks License](https://databricks.com/db-license-source).  All included or referenced third party libraries are subject to the licenses set forth below.
+&copy; 2025 Databricks, Inc. All rights reserved. The source code in this repository is provided subject to the [Databricks License](https://databricks.com/db-license-source).  All included or referenced third party libraries are subject to the licenses set forth below.
 
-| library                                | description             | license    | source                                              |
-|----------------------------------------|-------------------------|------------|-----------------------------------------------------|
+
+| library                                | description.               | license    | source                                                            |
+|----------------------------------------|----------------------------|------------|-------------------------------------------------------------------|
+| PowerBI-Developer-Samples              | Power BI Developer Samples | MIT        | [Github](https://github.com/microsoft/PowerBI-Developer-Samples/) |
