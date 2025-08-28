@@ -2,7 +2,7 @@
 
 ## Introduction
 
-When connecting **Power BI** to **Databricks**, many developers and administrators who **do not require SSO** encounter challenges with ensuring secure and reliable authentication.
+When connecting **Power BI** to **Databricks**, many developers and administrators encounter challenges with ensuring secure and reliable authentication.
 
 
 ### Traditional Authentication Methods
@@ -11,8 +11,8 @@ Historically, two approaches were commonly used:
 1. **Personal Access Tokens (PATs)**
     - Widely rejected across organizations due to security concerns.
     - Often prohibited by enterprise security policies.
-2. Microsoft Entra ID (User-Based Authentication)
-    - Relies on individual user credentials.
+2. **Microsoft Entra ID (User-Based Authentication)**
+    - Relies on individual user credentials of a dataset owner.
     - Introduces operational risks:
         - Credentials may expire unexpectedly.
         - The responsible user might be unavailable when credentials need updating.
@@ -21,15 +21,13 @@ Historically, two approaches were commonly used:
         - Re-enter different credentials.
         - Risk **downtime and disruption** for Power BI users.
 
+    Using Microsoft Entra ID with personal credentials inherently creates dependencies:
+    - **Expired credentials** → causes failed connections.
+    - **Unavailable users** → delays in restoring access.
+    - **Admin intervention** required → additional operations burden.
 
-### The Problem with User-Based Authentication
+    This creates ongoing operational overhead for administrators and potential interruptions for report consumers.
 
-Using Microsoft Entra ID with personal credentials inherently creates dependencies:
-- **Expired credentials** → causes failed connections.
-- **Unavailable users** → delays in restoring access.
-- **Admin intervention** required → additional operations burden.
-
-This creates ongoing operational overhead for administrators and potential interruptions for report consumers.
 
 ### A More Secure Alternative: Service Principals with M2M OAuth
 The introduction of [Databricks Managed Service Principals](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/service-principals#databricks-and-microsoft-entra-id-service-principals) enables a more secure and robust solution: **Machine-to-Machine (M2M) OAuth authentication**.
@@ -47,7 +45,7 @@ Benefits of M2M OAuth authentication:
 sequenceDiagram
     participant App as Power BI
     participant OAuth as Databricks Auth Endpoint
-    participant Driver as ODBC/ADBC Driver
+    participant Driver as DBSQL Driver
     participant DBSQL as Databricks SQL Endpoint
 
     App->>Driver: Set OAuth Client ID/Secret with Service Principal ID/secret
@@ -62,6 +60,7 @@ sequenceDiagram
 
 
 ## Set up M2M OAuth in Power BI
+
 M2M OAuth addresses security concerns that come with credential rotations when using personal access tokens. Power BI Desktop 2.143.878.0 (May 2025 release) or above is required for this authentication method.
 
 To set up and configure a service principal for M2M OAuth, do the following:
@@ -143,6 +142,17 @@ For teams managing access to Databricks exclusively via **On-Premises Data Gatew
 3. **Apply Credential Updates**
     - Refresh credentials only for the distinct combinations of gateways and data sources identified above.
 
+
+
+## Single Sign-On (SSO) and M2M OAuth authentication
+
+M2M OAuth authentication should be used for semantic models that use DirectQuery, Import, or Dual storage modes. However, if you leverage [Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/) unified governance features, such as [object level permissions](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/manage-privileges/) and [Row filters and column masks](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/filters-and-masks/), you may want to enable:
+- `Report viewers can only access this data source with their own Power BI identities using DirectQuery` in the dataset's datasource settings
+- or `Use SSO via Azure AD for DirectQuery queries` in a gateway connection's settings.
+
+Enabling this setting is not supported via the Power BI REST API, therefore not included in the sample code. You may want to enable it manually.
+
+In the case of **Composite models**, that combine **DirectQuery** and **Dual** storage modes, when the SSO option is enabled with M2M OAuth authentication, all data refreshes(scheduled or triggered) of the **Dual** mode tables will use the M2M OAuth credentials, while **DirectQuery** queries will use the report viewers credentials.
 
 
 ## Conclusion
