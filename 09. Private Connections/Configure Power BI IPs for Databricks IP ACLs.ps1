@@ -1,21 +1,24 @@
 <#
-    .SYNOPSIS
-    This script retrieves the list of Power BI addresses and configures Databricks workspace IP ACLs accordingly.
-    .DESCRIPTION
-    This script retrieves the list of Power BI addresses and configures Databricks workspace IP ACLs accordingly.
-    .INPUTS
+.SYNOPSIS
+    Configure Power BI IP addresses for Databricks IP Access Control Lists (ACLs)
+.DESCRIPTION
+    This script retrieves the latest Power BI IP addresses from Azure's public IP ranges and configures them in Databricks IP Access Control Lists (ACLs). 
+    It supports specifying an Azure region to filter the Power BI IPs accordingly. If no region is specified, it defaults to empty (global).
+.PARAMETER Location
+    The Azure region for which to configure Power BI IPs. Default is empty (global). Examples: "eastus", "westeurope", etc.
+.INPUTS
     None
-    .OUTPUTS
+.OUTPUTS
     None
-    .EXAMPLE
-    PS> & './Configure Power BI IPs for Databricks IP ACLs.ps1'      
-    .LINK
-    None
+.EXAMPLE
+    # PS> & './Configure Power BI IPs for Databricks IP ACLs.ps1' eastus
+    #     Retrieves IP addresses for Power BI in the East US region and configures the Databricks IP ACL accordingly.
 #>
 
 param(
     [Parameter(Mandatory=$false)]
-    [string]$Location = ""
+    [ValidateNotNullOrWhiteSpace()]
+    [string]$Location
 )
 
 # Check Databricks CLI installation
@@ -27,14 +30,14 @@ if (-not (Get-Command databricks -ErrorAction SilentlyContinue)) {
 # Check if the Location parameter was explicitly provided
 if ($PSBoundParameters.ContainsKey('Location')) {
     Write-Host "Using provided location: $Location" -ForegroundColor Green
-    $powerbiServiceTag = "PowerBI.$Location"
     $Label = "Power-BI-IP-for-Databricks-IP-ACLs-Automation-$Location"
 }
 else {
     Write-Host "Using default location: $Location" -ForegroundColor Yellow
-    $powerbiServiceTag = "PowerBI"
     $Label = "Power-BI-IP-for-Databricks-IP-ACLs-Automation"
 }
+
+exit 1
 
 $ErrorActionPreference = "Stop"
 
@@ -85,18 +88,25 @@ Write-Host "Starting Power BI IP addresses for Databricks IP ACLs automation..."
 Write-Host "Downloading Azure public IP ranges..."
 $azureIpRanges = Get-AzureIpRanges
 
-# Filter Power BI IP ranges for specified region
-Write-Host "Filtering for $powerbiServiceTag..."
-$powerBIRanges = $azureIpRanges | Where-Object { 
-    $_.name -eq $powerbiServiceTag
+# Filter for Power BI service tags 
+Write-Host "Filtering Power BI IP ranges using case-insensitive match..."
+$powerBIRanges = $azureIpRanges | Where-Object {
+    ($_.name -ilike 'powerbi*') -and ($_.properties.region -ieq $Location)
 }
 
-$ipv4Addresses = $powerBIRanges.Properties.AddressPrefixes | Where-Object { $_ -notmatch ':' } |
-    Sort-Object -Unique
+if (-not $powerBIRanges) {
+    Write-Error "No PowerBI service tag found at all."
+    exit 1
+}
+
+# Extract IPv4 addresses
+$ipv4Addresses = $powerBIRanges.Properties.AddressPrefixes | Where-Object { $_ -notmatch ':' } | Sort-Object -Unique
+
 if (-not $ipv4Addresses) {
     Write-Error "No Power BI IPv4 addresses found for region $Location"
     exit 1
 }
+
 
 # Format for JSON
 $formattedIPs = $ipv4Addresses | ForEach-Object { "`"$_`"" }
@@ -148,4 +158,3 @@ if ($existingList) {
 }
 
 Write-Host "Script execution completed."
-
