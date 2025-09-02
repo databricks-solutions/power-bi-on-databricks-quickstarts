@@ -1,5 +1,27 @@
 #!/bin/bash
 
+# .SYNOPSIS
+# Configure Power BI IP addresses for Databricks IP Access Control Lists (ACLs)
+# .DESCRIPTION
+# This script retrieves the latest Power BI IP addresses from Azure's public IP ranges and configures them in Databricks IP Access Control Lists (ACLs). 
+# It supports specifying an Azure region to filter the Power BI IPs accordingly. If no region is specified, it defaults to empty (global).
+# .PARAMETER Location
+# The Azure region for which to configure Power BI IPs. Default is empty (global). Examples: "eastus", "westeurope", etc.
+# .OUTPUTS
+# None
+# .EXAMPLE
+# PS> & './Configure Power BI IPs for Databricks IP ACLs.sh' 'eastus'
+# Retrieves IP addresses for Power BI in the East US region and configures the Databricks IP ACL accordingly.
+# .LINK
+# None
+
+
+# Check if argument is provided and is an empty string
+if [ $# -ge 1 ] && [ -z "$1" ]; then
+    echo "Error: LOCATION argument cannot be empty."
+    exit 1
+fi
+
 # Set variables with default value
 LOCATION=${1:-"global"}
 
@@ -35,20 +57,29 @@ get_azure_public_ip_ranges() {
     fi
 }
 
-# Function to filter Power BI IP ranges for the specified region
+# Function to filter Power BI IP ranges for the specified region with case-insensitive matching only
 filter_power_bi_ip_ranges() {
-    serviceTagRegion=${LOCATION// /}
-    powerbiServiceTag=$PBserviceTag
     ipRanges=$(get_azure_public_ip_ranges)
-    
-    # First try to find region-specific PowerBI tag
-    powerBIRanges=$(echo "$ipRanges" | jq -c ".[] | select(.name == \"$powerbiServiceTag\")")
-    
-    # If no region-specific tag found, try global PowerBI tag
-    if [ -z "$powerBIRanges" ] || [ "$powerBIRanges" == "" ]; then
-        powerBIRanges=$(echo "$ipRanges" | jq -c ".[] | select(.name == \"PowerBI\")")
+
+    if [ -z "$ipRanges" ] || [ "$ipRanges" == "" ]; then
+        echo "Failed to retrieve Azure IP ranges."
+        return 1
     fi
-    
+
+    PBserviceTag_LOWER=$(echo "$PBserviceTag" | tr '[:upper:]' '[:lower:]')
+
+    # Use PBserviceTag for case-insensitive matching
+    powerBIRanges=$(echo "$ipRanges" | jq -c --arg tag "$PBserviceTag_LOWER" '
+        .[] | select(
+            (.name | ascii_downcase) == ($tag)
+        )
+    ')
+
+    if [ -z "$powerBIRanges" ] || [ "$powerBIRanges" == "" ]; then
+        echo "NO Power BI IP ranges found at all"
+        return 1
+    fi
+
     echo "$powerBIRanges"
 }
 
@@ -57,7 +88,7 @@ extract_ipv4_addresses() {
     ipRanges=$(filter_power_bi_ip_ranges)
     
     if [ -z "$ipRanges" ] || [ "$ipRanges" == "" ]; then
-        echo "No PowerBI IP ranges found for region: $LOCATION"
+        echo "No Power BI IPv4 addresses found for region $LOCATION"
         return 1
     fi
     # Extract IPv4 addresses from the properties.addressPrefixes array
@@ -82,6 +113,7 @@ if [ -z "$ipv4Addresses" ]; then
     echo "No Power BI IPv4 addresses found for region $LOCATION"
     exit 1
 fi
+
 
 # Format IP addresses for JSON - this is the fixed part
 ipAddressesJson=$(echo "$ipv4Addresses" | awk '{print "\""$0"\""}' | paste -sd "," -)
@@ -111,11 +143,8 @@ fi
 # Execute the command
 echo "Executing command..."
 if [ -n "$existingList" ]; then
-    #echo "update command"
     eval "$updateCommand"
 else
-    #echo "create command"
-    #echo $createCommand
     eval "$createCommand"
 fi
 
