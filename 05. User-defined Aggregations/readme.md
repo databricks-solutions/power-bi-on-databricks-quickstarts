@@ -157,7 +157,7 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
    | Aggregation column     | Summarization | Detail table       | Detail column      |
    | ---------------------- | ------------- | ------------------ | ------------------ |
-   | **`n_nationkey`**      | GroupBy.      | **`nation`**       | **`n_nationkey`**  |
+   | **`n_nationkey`**      | GroupBy       | **`nation`**       | **`n_nationkey`**  |
    | **`EarliestShipdate`** | Min           | **`lineitem_agg`** | **`l_shipdate`**   |
    | **`SumofDiscount`**    | Sum           | **`lineitem_agg`** | **`l_discount`**   |
    | **`SumOfQuantity`**    | Sum           | **`lineitem_agg`** | **`l_quantity`**   |
