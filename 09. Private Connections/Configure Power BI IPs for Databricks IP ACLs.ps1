@@ -37,8 +37,6 @@ else {
     $Label = "Power-BI-IP-for-Databricks-IP-ACLs-Automation"
 }
 
-exit 1
-
 $ErrorActionPreference = "Stop"
 
 function Get-AzureIpRanges {
