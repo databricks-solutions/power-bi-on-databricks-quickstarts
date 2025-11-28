@@ -42,7 +42,7 @@ Before you begin, ensure you have the following:
    
 3. Open Power BI Desktop, create a new report.
    
-4. Connect to Databricks SQL Warehouse, **`powerbisamples`** catalog, **`tpch`** schema, and add the following tables to the semantic model
+4. Connect to Databricks SQL Warehouse, **`powerbiquickstarts`** catalog, **`tpch`** schema, and add the following tables to the semantic model
     - **`customer_lcase`** → DirectQuery.
       
 4. Create a table visual, add **`c_mktsegment`** and **`c_custkey`** columns, configure the latter to use Count aggregation.
