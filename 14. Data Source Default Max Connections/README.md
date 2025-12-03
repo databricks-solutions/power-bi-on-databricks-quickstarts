@@ -153,6 +153,7 @@ In this scenario, we test the first version of the report that uses the default 
     - End-to-end page refresh time (based on the slowest visual refresh) - `18.8s`.
 
     ![Data Source Default Max Connections = 10, AFRICA](./images/10-AFRICA.png)
+    <img width="400" src="./images/10-AFRICA.png" alt="Data Source Default Max Connections = 10, AFRICA" />
 
 22. Clear network trace, and filter the report page by **`AMERICA`**.
     - SQL Warehouse is running `1 cluster`.
