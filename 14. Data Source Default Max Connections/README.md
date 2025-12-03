@@ -152,32 +152,31 @@ In this scenario, we test the first version of the report that uses the default 
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time (based on the slowest visual refresh) - `18.8s`.
 
-    ![Data Source Default Max Connections = 10, AFRICA](./images/10-AFRICA.png)
     <img width="400" src="./images/10-AFRICA.png" alt="Data Source Default Max Connections = 10, AFRICA" />
 
 22. Clear network trace, and filter the report page by **`AMERICA`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.8s`.
 
-    ![Data Source Default Max Connections = 10, AMERICA](./images/10-AMERICA.png)
+    <img width="400" src="./images/10-AMERICA.png" alt="Data Source Default Max Connections = 10, AMERICA" />
 
 23. Clear network trace, and filter the report page by **`ASIA`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.8s`.
 
-    ![Data Source Default Max Connections = 10, ASIA](./images/10-ASIA.png)
+    <img width="400" src="./images/10-ASIA.png" alt="Data Source Default Max Connections = 10, ASIA" />
 
 24. Clear network trace, and filter the report page by **`EUROPE`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.5s`.
 
-    ![Data Source Default Max Connections = 10, EUROPE](./images/10-EUROPE.png)
+    <img width="400" src="./images/10-EUROPE.png" alt="Data Source Default Max Connections = 10, EUROPE" />
 
 25. Clear network trace, and filter the report page by **`MIDDLE EAST`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.7s`.
 
-    ![Data Source Default Max Connections = 10, MIDDLE EAST](./images/10-MIDDLE-EAST.png)
+    <img width="400" src="./images/10-MIDDLE-EAST.png" alt="Data Source Default Max Connections = 10, MIDDLE EAST" />
 
 
 ### Data Source Default Max Connections = 50
@@ -202,7 +201,7 @@ In this scenario, we test the second version of the report that uses the adjuste
 28. Open the other published report - ***Data Source Default Max Connections = 50***, wait until it's fully loaded.
 
 29. Note that the SQL Warehouse is running **3 clusters**.
-![SQL Warehouse](./images/50-SQLWarehouseClusters-3.png)
+    <img width="400" src="./images/50-SQLWarehouseClusters-3.png" alt="SQL Warehouse" />
 
 > [!NOTE]
 > The reason why we observed 3 clusters here is that Power BI triggered 40 SQL queries concurrently, thus SQL Warehouse decided to scale out to 3 clusters to handle such a workload.
@@ -215,31 +214,32 @@ In this scenario, we test the second version of the report that uses the adjuste
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `13.6s`.
 
-    ![Data Source Default Max Connections = 50, AFRICA](./images/50-AFRICA.png)
+    <img width="400" src="./images/50-AFRICA.png" alt="Data Source Default Max Connections = 50, AFRICA" />
 
 32. Clear network trace, and filter the report page by **`AMERICA`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `9.1s`.
 
     ![Data Source Default Max Connections = 50, AMERICA](./images/50-AMERICA.png)
+    <img width="400" src="./images/50-AMERICA.png" alt="Data Source Default Max Connections = 50, AMERICA" />
 
 33. Clear network trace, filter the report page by **`ASIA`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `6.9s`.
 
-    ![Data Source Default Max Connections = 50, ASIA](./images/50-ASIA.png)
+    <img width="400" src="./images/50-ASIA.png" alt="Data Source Default Max Connections = 50, ASIA" />
 
 34. Clear network trace, filter the report page by **`EUROPE`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `7.6s`.
 
-    ![Data Source Default Max Connections = 50, EUROPE](./images/50-EUROPE.png)
+    <img width="400" src="./images/50-EUROPE.png" alt="Data Source Default Max Connections = 50, EUROPE" />
 
 35. Clear network trace, filter the report page by **`MIDDLE EAST`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `5.4s`.
 
-    ![Data Source Default Max Connections = 50, MIDDLE EAST](./images/50-MIDDLE-EAST.png)
+    <img width="400" src="./images/50-MIDDLE-EAST.png" alt="Data Source Default Max Connections = 50, MIDDLE EAST" />
 
 
 ### Results
