@@ -172,8 +172,10 @@ So we achieved the following results.
 
 In conclusion, optimizing query parallelization in Power BI with *DirectQuery* mode has a significant impact on report performance and user experience when working with Databricks Lakehouse. By adjusting semantic model settings such as `Max Parallelism Per Query` and `Data Source Default Max Connections`, you can optimize Power BI's ability to run multiple SQL queries simultaneously. This results in faster overall report response times, especially for reports with many complex measures, as more queries are executed in parallel rather than sequentially. Ultimately, tuning for greater parallelism allows you to make the most of both the Power BI Premium capacity and Databricks backend, enabling scalable analytics that remain responsive even as data volume and report complexity grow.
 
+
 > [!IMPORTANT]
 > Query parallelization and other constraints for each SKU can be found in Microsoft documentation - [Semantic model SKU limitation](https://learn.microsoft.com/en-us/fabric/enterprise/powerbi/service-premium-what-is#semantic-model-sku-limitation).
+
 
 > [!IMPORTANT]
 > Please note that actual query parallelism is always limited by the lowest of all limiting factors which include:
@@ -181,6 +183,13 @@ In conclusion, optimizing query parallelization in Power BI with *DirectQuery* m
 > - **`Data Source Default Max Connections`**
 > - Databricks SQL Warehouse capacity
 > - On-premises / VNET managed gateway capacity (if used)
+
+
+> [!IMPORTANT]
+> Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
+> - **Max Parallelism Per Query** manages how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
+> - **Data Source Default Max Connections** manages how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
+
 
 
 ## Power BI Template 

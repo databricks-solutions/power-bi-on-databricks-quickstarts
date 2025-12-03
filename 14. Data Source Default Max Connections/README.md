@@ -116,6 +116,9 @@ Before you begin, ensure you have the following:
 
 11. Add 40 (fourty) [Card](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-card?tabs=powerbi-desktop) visuals, use previously created 40 calculated measures for the Card visuals. All Card visuals should use different measures.
 
+> [!NOTE]
+> We design the report in such a way that Power BI will trigger 40 SQL queries to refresh the report page.
+
 12. Save the report to a local pbix-file using the name - `Data Source Default Max Connections = 10.pbix`.
 
 13. Publish the report to Power BI workspace.
@@ -274,8 +277,8 @@ You can find more information on how **Data Source Default Max Connections** imp
 
 > [!IMPORTANT]
 > Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
-> - **Max Parallelism Per Query** manages how many SQL queries generated for a single DAX-query (a single visual) can be triggered concurrently.
-> - **Data Source Default Max Connections** manages how many SQL queries in total can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
+> - **Max Parallelism Per Query** manages how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
+> - **Data Source Default Max Connections** manages how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
 
 
 ## Power BI template
