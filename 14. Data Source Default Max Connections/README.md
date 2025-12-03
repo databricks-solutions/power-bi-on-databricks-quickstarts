@@ -4,7 +4,7 @@
 
 Power BI reports built with DirectQuery or Composite models often trigger multiple SQL queries to Databricks. While the Databricks SQL engine provides excellent single-query performance and scales efficiently for high concurrency, overall user experience can degrade when Power BI does not parallelize SQL queries enough.
 
-This quickstart guide shows how to optimize query parallelization in Power BI to fully leverage the scale-out capabilities of Databricks SQL Warehouses.
+This quickstart guide shows how to optimize query parallelization in Power BI to fully leverage the scale-out capabilities of Databricks SQL Warehouses by using [Data Source Default Max Connections](https://learn.microsoft.com/en-us/dotnet/api/microsoft.analysisservices.tabular.model.datasourcedefaultmaxconnections) setting.
 
 
 ## Prerequisites
@@ -114,18 +114,18 @@ Before you begin, ensure you have the following:
 
 10. Add [Slicer](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-button-slicer?tabs=powerbi-desktop) visual, use **`region.r_name`** column in the slicer.
 
-11. Add 40 (forty) [Card](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-card?tabs=powerbi-desktop) visuals, use previously created 40 calculated measures for the Card visuals. All Card visuals should use different measures.
+11. Add 40 (fourty) [Card](https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-card?tabs=powerbi-desktop) visuals, use previously created 40 calculated measures for the Card visuals. All Card visuals should use different measures.
 
-12. Save the report to a local pbix-file using the name - ***Data Source Default Max Connections = 10.pbix***.
+12. Save the report to a local pbix-file using the name - `Data Source Default Max Connections = 10.pbix`.
 
 13. Publish the report to Power BI workspace.
 
 14. In Power BI Desktop, open File → Options and settings → Options → CURRENT FILE → DirectQuery.
 
 15. Set **Maximum connections per data source** as 50.
-![Maximum connections per data source](./images/MaxConnectionsPerDataSource.png)
+<img width="400" src="./images/MaxConnectionsPerDataSource.png" alt="Maximum connections per data source" />
 
-16. Save the report to a local pbix-file using a different name - ***Data Source Default Max Connections = 50.pbix***.
+16. Save the report to a local pbix-file using a different name - `Data Source Default Max Connections = 50.pbix`.
 
 17. Publish the report to Power BI workspace.
 
@@ -135,16 +135,18 @@ In this scenario, we test the first version of the report that uses the default 
 
 
 18. Open the first published report - ***Data Source Default Max Connections = 10***, wait until it's fully loaded.
-![Data Source Default Max Connections = 10](./images/ReportPage.png)
+    <img width="800" src="./images/ReportPage.png" alt="Report page" />
 
 19. Note that the SQL Warehouse is running **1 cluster**.
-![SQL Warehouse](./images/10-SQLWarehouseClusters-1.png)
+
+    <img width="400" src="./images/10-SQLWarehouseClusters-1.png" alt="SQL Warehouse" />
 
 20. In Power BI browser tab, open menu More Tools → Developer Tools → Network, apply filter:
     - Filter = **`query`**
     - Fetch/XHR
 
-    ![Network trace](./images/NetworkTrace.png)
+    <img width="400" src="./images/NetworkTrace.png" alt="Network trace" />
+
 
 21. Using the region slicer, filter the report page by **`AFRICA`**.
     - SQL Warehouse is running `1 cluster`.
