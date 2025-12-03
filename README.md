@@ -32,6 +32,7 @@ For quick access to [this repository](./) and [Best Practices Cheat Sheet](https
 | 11   | [Generated vs Persisted dimensions](./11.%20Generated%20vs%20Persisted%20dimension/)    |  Improve Power BI DirectQuery performance by using generated vs persisted dimension tables  |
 | 12   | [Collations](./12.%20Collations/)    |  Use Collations for case-insensitive search and filtering  |
 | 13   | [M2M OAuth Credentials Management](./13.%20M2M%20OAuth%20Credentials%20Management/)    |  Use M2M OAuth authentication for non-interactive workloads  |
+| 14   | [Data Source Default Max Connections](./14.%20Data%20Source%20Default%20Max%20Connections/)    |  Use Data Source Default Max Connections for high-concurrency workloads  |
 
 
 ## How to get help
