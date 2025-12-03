@@ -272,6 +272,10 @@ Tuning **Data Source Default Max Connections** is most beneficial for high-concu
 
 You can find more information on how **Data Source Default Max Connections** impacts Power BI query parallelization [here](https://learn.microsoft.com/en-us/power-bi/guidance/directquery-model-guidance#optimize-model-design). Please note that the maximum effective value of **Data Source Default Max Connections** is subject for [Power BI SKU limitations](https://learn.microsoft.com/en-us/fabric/enterprise/powerbi/service-premium-what-is#semantic-model-sku-limitation).
 
+> [!IMPORTANT]
+> Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
+> - **Max Parallelism Per Query** manages how many SQL queries generated for a single DAX-query (a single visual) can be triggered concurrently.
+> - **Data Source Default Max Connections** manages how many SQL queries in total can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
 
 
 ## Power BI template
