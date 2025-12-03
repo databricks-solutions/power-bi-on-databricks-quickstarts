@@ -187,8 +187,8 @@ In conclusion, optimizing query parallelization in Power BI with *DirectQuery* m
 
 > [!IMPORTANT]
 > Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
-> - **Max Parallelism Per Query** manages how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
-> - **Data Source Default Max Connections** manages how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
+> - **Max Parallelism Per Query** defines how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
+> - **Data Source Default Max Connections** defines how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
 
 
 

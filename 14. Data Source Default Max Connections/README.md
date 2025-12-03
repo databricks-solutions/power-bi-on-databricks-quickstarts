@@ -148,7 +148,7 @@ In this scenario, we test the first version of the report that uses the default 
     - Filter = **`query`**
     - Fetch/XHR
 
-    <img width="400" src="./images/NetworkTrace.png" alt="Network trace" />
+    <img width="300" src="./images/NetworkTrace.png" alt="Network trace" />
 
 
 21. Using the region slicer, filter the report page by **`AFRICA`**.
@@ -204,6 +204,7 @@ In this scenario, we test the second version of the report that uses the adjuste
 28. Open the other published report - ***Data Source Default Max Connections = 50***, wait until it's fully loaded.
 
 29. Note that the SQL Warehouse is running **3 clusters**.
+    
     <img width="400" src="./images/50-SQLWarehouseClusters-3.png" alt="SQL Warehouse" />
 
 > [!NOTE]
@@ -277,8 +278,8 @@ You can find more information on how **Data Source Default Max Connections** imp
 
 > [!IMPORTANT]
 > Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
-> - **Max Parallelism Per Query** manages how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
-> - **Data Source Default Max Connections** manages how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
+> - **Max Parallelism Per Query** defines how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
+> - **Data Source Default Max Connections** defines how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
 
 
 ## Power BI template
