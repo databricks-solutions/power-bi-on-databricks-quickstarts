@@ -248,6 +248,7 @@ In this scenario, we test the second version of the report that uses the adjuste
 ### Results
 > [!IMPORTANT]
 > Please note that results in your environment may differ from those reported here, but the overall trends should remain consistent.
+> The results reported here were achieved on Power BI **P1** capacity and **Serverless** SQL Warehouse, **Small** cluster size, min **1**, max **5**.
 
 |  Max Connections | Filter       | Clusters | Refresh time, s |
 | ---------------- | ------------ | -------- | --------------- |
