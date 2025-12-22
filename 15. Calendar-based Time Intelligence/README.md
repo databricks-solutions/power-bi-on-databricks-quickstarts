@@ -97,8 +97,8 @@ Before you begin, ensure you have the following:
 
 10. Mark **`calendar`** table as date table.
     
-    <img width="300" src="./images/02.png" alt="Mark as date table" />
-    <img width="300" src="./images/03.png" alt="Mark as date table" />
+    <img width="250" src="./images/02.png" alt="Mark as date table" />
+    <img width="200" src="./images/03.png" alt="Mark as date table" />
 
 11. Create DAX-measures in the **`lineitem`** table using the follow expressions.
     ```
@@ -175,7 +175,7 @@ Before you begin, ensure you have the following:
 
 24. Create a new calendar and configure it as shown below.
 
-    <img width="400" src="./images/09.png" alt="New calendar" />
+    <img width="600" src="./images/09.png" alt="New calendar" />
 
     | Category            | Primary column  | Associated columns    |
     | ------------------- | --------------- | --------------------- |
