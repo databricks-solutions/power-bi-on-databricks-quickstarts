@@ -186,7 +186,7 @@ Before you begin, ensure you have the following:
     | Day of Year         | day_of_year     |                       |
     | Day of Month        | day_of_month    |                       |
 
-    <img width="400" src="./images/10.png" alt="Gregorian calendar" />
+    <img width="500" src="./images/10.png" alt="Gregorian calendar" />
 
 25. Click **Validate data**. Make sure there are no errors. Click **Save and close**.
 
@@ -200,7 +200,7 @@ Before you begin, ensure you have the following:
     | Date                | Date             |                       |
     | Day of Week         | iso_day_of_week  |                       |
 
-    <img width="400" src="./images/11.png" alt="ISO-weeks calendar" />
+    <img width="500" src="./images/11.png" alt="ISO-weeks calendar" />
 
 27. Update DAX-measures in the **`lineitem`** table as shown below. Note the new syntax for `DATESYTD` and `SAMEPERIODLASTYEAR` functions.
 
@@ -214,7 +214,7 @@ Before you begin, ensure you have the following:
 
 29. Refresh the report multiple times by clicking **Refresh visuals**. Note the refresh durations for the table visual.
 
-    <img width="400" src="./images/12.png" alt="Performance analyzer" />
+    <img width="300" src="./images/12.png" alt="Performance analyzer" />
 
 30. Open Databricks workspace UI → **Query History**. Explore SQL-queries triggered by Power BI.
 
