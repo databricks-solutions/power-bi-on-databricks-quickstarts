@@ -2,9 +2,10 @@
 
 ## Introduction
 
-**Time Intelligence** are crucial for many analytics scenarios, such as sales analysis, inventory management, financial planning, etc. While Power BI offers a set of powerful [time intelligence functions](https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax), the efficience of time intelligence calculations in DirectQuery mode was sub-par until recently. With the introduction of [Calendar-based time intelligence](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-time-intelligence#calendar-based-time-intelligence-preview), the efficiency of DirectQuery semantic models moves to the next level.
+**Time Intelligence** is central to many analytics scenarios, from sales and inventory to financial planning, but classic time intelligence calculations in Power BI have been historically less efficient in **DirectQuery** mode. With the introduction of [Calendar-based time intelligence](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-time-intelligence#calendar-based-time-intelligence-preview), DirectQuery semantic models can now execute time intelligence calculations far more efficiently, unlocking faster and more scalable reporting.
 
-This quickstart guide demonstrates the benefits of the new [Calendar-based time intelligence](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-time-intelligence#calendar-based-time-intelligence-preview) feature in Power BI.
+This quickstart demonstrates how to take advantage of [Calendar-based time intelligence](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-time-intelligence#calendar-based-time-intelligence-preview) in Power BI, highlighting its practical benefits.
+
 
 
 ## Prerequisites
@@ -12,7 +13,7 @@ This quickstart guide demonstrates the benefits of the new [Calendar-based time 
 Before you begin, ensure you have the following:
 
 - [Databricks account](https://databricks.com/), access to a Databricks workspace, Unity Catalog, and SQL Warehouse
-- [Databricks SQL Warehouse](https://docs.databricks.com/gcp/en/compute/sql-warehouse/), **Serverless**, scaling **Min. 1**, **Max. 5** clusters.
+- [Databricks SQL Warehouse](https://docs.databricks.com/gcp/en/compute/sql-warehouse/)
 - [Power BI Desktop](https://powerbi.microsoft.com/desktop/), latest version is highly recommended
 
 
@@ -91,16 +92,13 @@ Before you begin, ensure you have the following:
 8. Using Model view set the storage mode for **`calendar`** table as **Dual**.
 
 9. If the table relationship was not created by Power BI Desktop automatically, create the table relationship as shown on the picture below.
-
-    <img width="800" src="./images/01.png" alt="Table relationship" />
+    <img width="600" src="./images/01.png" alt="Table relationship" />
 
 10. Mark **`calendar`** table as date table.
-
     <img width="300" src="./images/02.png" alt="Mark as date table" />
     <img width="300" src="./images/03.png" alt="Mark as date table" />
 
 11. Create DAX-measures in the **`lineitem`** table using the follow expressions.
-
     ```
     Tax Amount = SUM ( lineitem[l_tax] )
     YTD Tax Amount = CALCULATE ( [Tax Amount], DATESYTD ( 'calendar'[Date] ) )
@@ -108,7 +106,6 @@ Before you begin, ensure you have the following:
     ```
 
 12. The data model should look as shown below.
-
     <img width="400" src="./images/04.png" alt="Data model" />
 
 13. Add a table visual to the report page. Add columns to the table visual. Disable Totals in the table visual format settings.
@@ -118,21 +115,18 @@ Before you begin, ensure you have the following:
     - `PY YTD Tax Amount`
 
 14. The report page should look as shown below.
-
-    <img width="400" src="./images/05.png" alt="Report page" />
+    <img width="300" src="./images/05.png" alt="Report page" />
 
 15. Open Performance Analyzer. **Optimize** → **Performance analyzer** → **Start recording**.
 
 16. Refresh the report multiple times by clicking **Refresh visuals**. Note the refresh durations for the table visual.
-
-    <img width="400" src="./images/06.png" alt="Performance analyzer" />
+        <img width="300" src="./images/06.png" alt="Performance analyzer" />
 
 17. Open Databricks workspace UI → **Query History**. Explore SQL-queries triggered by Power BI.
 
 18. For every report refresh, Power BI Desktop triggers 3 SQL-queries. 1 SQL query per measure used in the table visual.
 
 19. Explore the SQL-queries text. You can see that Power BI Desktop generated 2 SQL-queries at ***day*** granularity (filter in `Date` column), though the report expects ***year*** granularity. Namely for measures `YTD Tax Amount` and `PY YTD Tax Amount`. These queries return **2,526** records that must be further aggregated on Power BI side.
-
     ```sql
     ...
         inner join (
