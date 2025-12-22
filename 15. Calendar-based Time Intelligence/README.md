@@ -95,6 +95,7 @@ Before you begin, ensure you have the following:
     <img width="600" src="./images/01.png" alt="Table relationship" />
 
 10. Mark **`calendar`** table as date table.
+    
     <img width="300" src="./images/02.png" alt="Mark as date table" />
     <img width="300" src="./images/03.png" alt="Mark as date table" />
 
@@ -115,6 +116,7 @@ Before you begin, ensure you have the following:
     - `PY YTD Tax Amount`
 
 14. The report page should look as shown below.
+    
     <img width="300" src="./images/05.png" alt="Report page" />
 
 15. Open Performance Analyzer. **Optimize** → **Performance analyzer** → **Start recording**.
@@ -171,6 +173,8 @@ Before you begin, ensure you have the following:
 
 24. Create a new calendar and configure it as shown below.
 
+    <img width="400" src="./images/09.png" alt="New calendar" />
+
     | Category            | Primary column  | Associated columns    |
     | ------------------- | --------------- | --------------------- |
     | Year                | year            |                       |
@@ -182,7 +186,7 @@ Before you begin, ensure you have the following:
     | Day of Year         | day_of_year     |                       |
     | Day of Month        | day_of_month    |                       |
 
-    <img width="400" src="./images/09.png" alt="Gregorian calendar" />
+    <img width="400" src="./images/10.png" alt="Gregorian calendar" />
 
 25. Click **Validate data**. Make sure there are no errors. Click **Save and close**.
 
