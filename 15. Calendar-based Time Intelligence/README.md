@@ -92,7 +92,8 @@ Before you begin, ensure you have the following:
 8. Using Model view set the storage mode for **`calendar`** table as **Dual**.
 
 9. If the table relationship was not created by Power BI Desktop automatically, create the table relationship as shown on the picture below.
-    <img width="600" src="./images/01.png" alt="Table relationship" />
+    
+    <img width="500" src="./images/01.png" alt="Table relationship" />
 
 10. Mark **`calendar`** table as date table.
     
@@ -107,6 +108,7 @@ Before you begin, ensure you have the following:
     ```
 
 12. The data model should look as shown below.
+    
     <img width="400" src="./images/04.png" alt="Data model" />
 
 13. Add a table visual to the report page. Add columns to the table visual. Disable Totals in the table visual format settings.
