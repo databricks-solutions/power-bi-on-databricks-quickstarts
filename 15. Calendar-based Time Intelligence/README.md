@@ -133,29 +133,30 @@ Before you begin, ensure you have the following:
 19. Explore the SQL-queries text. You can see that Power BI Desktop generated 2 SQL-queries at ***day*** granularity (filter in `Date` column), though the report expects ***year*** granularity. Namely for measures `YTD Tax Amount` and `PY YTD Tax Amount`. These queries return **2,526** records that must be further aggregated on Power BI side.
     ```sql
     ...
-        inner join (
-            select
+    inner join (
+        select
             `Date`,
             `year`,
             ...
-            from
+        from
             `powerbiquickstarts`.`tpch`.`calendar`
-            where
-            (
-                `Date` in (
-                { d '1993-08-12' },
-                ...
-                { d '1993-01-14' }
-                )
+        where
+        (
+            `Date` in (
+            { d '1993-08-12' },
+            ...
+            { d '1993-01-14' }
             )
-            or (
-                `Date` in (
-                { d '1993-02-24' },
-                ...
-                { d '1999-04-21' }
-                )
+        )
+        or (
+            `Date` in (
+            { d '1993-02-24' },
+            ...
+            { d '1999-04-21' }
             )
-        ) as `ITBL`
+        )
+    ) as `ITBL`
+    ...
     ```
 
 20. Switch to Power BI Desktop. Save the report as local file. Close Power BI Desktop.
@@ -226,16 +227,16 @@ Before you begin, ensure you have the following:
 
     ```sql
     ...
-        inner join (
-            select
-                `Date`,
-                `year`,
-                ...
-            from
-                `powerbiquickstarts`.`tpch`.`calendar`
-            where
-                `year` in (1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000)
-        ) as `ITBL`
+    inner join (
+        select
+            `Date`,
+            `year`,
+            ...
+        from
+            `powerbiquickstarts`.`tpch`.`calendar`
+        where
+            `year` in (1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000)
+    ) as `ITBL`
     ...
     ```
 
