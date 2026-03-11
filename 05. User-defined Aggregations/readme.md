@@ -46,6 +46,9 @@ Before you begin, ensure you have the following:
       INNER JOIN `samples`.`tpch`.`customer` on `o_custkey` = `c_custkey`
       INNER JOIN `samples`.`tpch`.`nation` on `c_nationkey` = `n_nationkey`
    GROUP BY ALL;
+
+   CREATE OR REPLACE VIEW v_nation AS 
+   SELECT *, now() as currenttime FROM nation;
     ```
 
 1. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
@@ -62,21 +65,24 @@ Before you begin, ensure you have the following:
 4. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
 
 5. Add tables to the semantic model as follows.
-   - **`customer`** - *Dual* storage mode. Dimension table containing customer information and connected to nation dimension table using nationkey.
-   - **`nation`** - *Dual* storage mode. Dimension table containing nation name and details.
+   - **`v_nation`** - *DirectQuery* storage mode. Dimension table containing nation name and details. Please note that this must be the `v_nation` view, not `nation` table. The view uses `now()` functions that prevents Query Result Cache from kicking in. This will help to observe the difference in the behavior.
+   - **`customer`** - *DirectQuery* storage mode. Dimension table containing customer information and connected to nation dimension table using nationkey.
    - **`orders`** - *DirectQuery* storage mode. Fact table containing orders information and connected to customer dimension using customerkey.
    - **`lineitem`** - *DirectQuery* storage mode. Fact table containing details like order shipment date, discount price etc. 
-   - **`orders_agg`** - *DirectQuery* storage mode. Copy of **`orders`** table and used for aggregate table report.
-   - **`lineitem_agg`** - *DirectQuery* storage mode. Copy of **`lineitem`** table and used for aggregate table report.
+   
+   - **`nation_agg`** - *DirectQuery* storage mode. Replica of **`v_nation`** table and used for aggregate table report.
+   - **`customer_agg`** - *DirectQuery* storage mode. Replica of **`customer`** table and used for aggregate table report.
+   - **`orders_agg`** - *DirectQuery* storage mode. Replica of **`orders`** table and used for aggregate table report.
+   - **`lineitem_agg`** - *DirectQuery* storage mode. Replica of **`lineitem`** table and used for aggregate table report.
    - **`lineitem_by_nation_agg`** - *DirectQuery* storage mode. Aggregated **`lineitem`** data.
 
 8. Create table relationships as follows.
    - **`nation`** → **`customer`** → **`orders`** → **`lineitem`** 
-   - **`nation`** → **`customer`** → **`orders_agg`** → **`lineitem_agg`** 
-   - **`nation`** → **`lineitem_by_nation_agg`**
+   - **`nation_agg`** → **`customer_agg`** → **`orders_agg`** → **`lineitem_agg`** 
+   - **`nation_agg`** → **`lineitem_by_nation_agg`**
    
 > [!IMPORTANT]
-> The relationship between **`nation`** and **`lineitem_by_nation_agg`** must **be One to many (1:*)** with **Single** cross-filter direction.
+> The relationship between **`nation_agg`** and **`lineitem_by_nation_agg`** must **be One to many (1:*)** with **Single** cross-filter direction.
 
    The resulting data model should look like on the screenshot below.
 
@@ -96,19 +102,19 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
 2. Open **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**.
 
-4. Perfomance Analyzer tab will display the Table visual and a DAX query. Click on **Copy Query**. The DAX query should look similar to [Sample DAX Query](./scripts/Sample_DAX_Query.dax) script. Below is the screenshot of *DirectQuery* report page.
+3. Perfomance Analyzer tab will display the Table visual and a DAX query. Click on **Copy Query**. The DAX query should look similar to [Sample DAX Query](./scripts/Sample_DAX_Query.dax) script. Below is the screenshot of *DirectQuery* report page.
    
    <img width="800" src="./images/DirectQuery-Report.png" alt="DirectQuery - report" />
 
-5. To compare the performance between *pure DirectQuery* and *User-defined Aggregations*, it is important to get objective and precise query execution times.
+4. To compare the performance between *pure DirectQuery* and *User-defined Aggregations*, it is important to get objective and precise query execution times.
 
-6. Open **DAX Studio**, click **Connect**, choose local Power BI mode, click **Connect**, and click **Server Timings**.
+5. Open **DAX Studio**, click **Connect**, choose local Power BI mode, click **Connect**, and click **Server Timings**.
 
-7. Open the [Sample_DAX_Query.dax](./scripts/Sample_DAX_Query.dax) query or paste DAX-query that was previously copied in Power BI Desktop. Click **Run**. As shown in screenshot below, the query takes **3.977 sec**.
+6. Open the [Sample_DAX_Query.dax](./scripts/Sample_DAX_Query.dax) query or paste DAX-query that was previously copied in Power BI Desktop. Click **Run**. As shown in screenshot below, the query takes **2.167 sec**.
 
    <img width="800" src="./images/DirectQuery-DAXStudio.png" alt="DirectQuery - DAX Studio" />
 
-9. You can also find the SQL-query execution time by looking at Databricks Query History. As shown below, the query took **3.011 sec** and read **~38M** rows. 
+7. You can also find the SQL-query execution time by looking at Databricks Query History. As shown below, the query took **2.053 sec** and read **~38M** rows. 
 
    <img width="400" src="./images/DirectQuery-QueryProfile.png" alt="DirectQuery - query profile" />
 
@@ -165,7 +171,7 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
    <img width="600" src="./images/ManageAggregations.png" alt="Manage aggregations" />
 
 4. Create a new report page. Add a Table visual. Add columns to the Table visual as follows.
-   - **`n_nation`** from **`nation`** table
+   - **`n_nation`** from **`nation_agg`** table
    - Sum of **`l_discount`** from **`lineitem_agg`** table
    - Sum of **`l_quantity`** from **`lineitem_agg`** table
    - Earliest **`l_shipdate`** from **`lineitem_agg`** table
@@ -180,13 +186,13 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
 9. Open the [Sample_DAX_Query_Using_Aggregations.dax](./scripts/Sample_DAX_Query_Using_Aggregations.dax) query or paste DAX-query that was previously copied in Power BI Desktop. Click **Run**.
 
-10. As shown in screenshot below the query takes **1.593 sec**.
+10. As shown in screenshot below the query takes **1.077 sec**.
    
       <img width="800" src="./images/AggTable-DAXStudio.png" alt="Aggregated table - DAX Studio" />
    
       Also, as shown in the screenshot, the first row under **RewriteAttempted** shows **MatchFound**, i.e., Power BI was able to find the aggregate table for this query. Hence, during the query execution as shown in the screenshot the values are fetched from **`lineitem_by_nation_agg`** instead of **`lineitem_agg`** fact table.
 
-11. You can also find the query execution time by looking at Databricks Query History. As shown below the query took **~0.639 sec** and read only **50** rows (instead of ~**38M** rows). 
+11. You can also find the query execution time by looking at Databricks Query History. As shown below the query took **~0.994 sec** and read only **50** rows (instead of ~**38M** rows). 
       
       <img width="400" src="./images/AggTable-QueryProfile.png" alt="Query profile" />
       
