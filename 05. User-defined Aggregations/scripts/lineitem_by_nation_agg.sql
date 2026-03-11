@@ -29,6 +29,8 @@ FROM `samples`.`tpch`.`lineitem`
   INNER JOIN `samples`.`tpch`.`nation` on `c_nationkey` = `n_nationkey`
 GROUP BY ALL;
 
+CREATE OR REPLACE VIEW v_nation AS 
+SELECT *, now() as currenttime FROM nation;
 
 -- =====================================================================================================================
 -- 3. Cleanup
