@@ -47,6 +47,6 @@ Databricks support doesn't cover this content. For questions or bugs, please ope
 &copy; 2025 Databricks, Inc. All rights reserved. The source code in this repository is provided subject to the [Databricks License](https://databricks.com/db-license-source).  All included or referenced third party libraries are subject to the licenses set forth below.
 
 
-| library                                | description.               | license    | source                                                            |
+| Library                                | Description               | License    | Source                                                            |
 |----------------------------------------|----------------------------|------------|-------------------------------------------------------------------|
 | PowerBI-Developer-Samples              | Power BI Developer Samples | MIT        | [Github](https://github.com/microsoft/PowerBI-Developer-Samples/) |
