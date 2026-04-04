@@ -100,7 +100,7 @@ Before you begin, ensure you have the following:
     ```
 
 > [!IMPORTANT]
-> Though schemas `tpch` and `tpch_nointegrity` look similar, there are important differences. The schema `tpch_nointegrity` intentionally contains suboptimal tables. We will demonstrate the impact later in this quickstart.
+> Though schemas `tpch` and `tpch_nointegrity` look similar, there are important differences. The schema `tpch_nointegrity` intentionally contains suboptimal tables. Particularly, we changed **`p_partkey`** and **`s_suppkey`** columns to `INT` data type. We will demonstrate the impact of these changes later in this quickstart.
 
 
 4. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
@@ -136,11 +136,11 @@ Before you begin, ensure you have the following:
    - **`part_2`** → **`lineitem_2`** 
    - **`supplier_2`** → **`lineitem_2`**
 
-10. Ensure that for the former 2 relationships - **`part_1`** → **`lineitem_1`** and **`supplier_1`** → **`lineitem_1`** - ***Assume referential integrity*** setting is switched **OFF**.
+10. Ensure that for the former 2 relationships - **`part_1`** → **`lineitem_1`** and **`supplier_1`** → **`lineitem_1`** - [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) setting is switched **OFF**.
 
     <img width="150" src="./images/AssumeReferentialIntegrity1.png" alt="Assume referential integrity - OFF" />
 
-11. Ensure that for the latter 2 relationships - **`part_2`** → **`lineitem_2`** and **`supplier_2`** → **`lineitem_2`** - ***Assume referential integrity*** setting is switched **ON**.
+11. Ensure that for the latter 2 relationships - **`part_2`** → **`lineitem_2`** and **`supplier_2`** → **`lineitem_2`** - [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) setting is switched **ON**.
 
     <img width="150" src="./images/AssumeReferentialIntegrity2.png" alt="Assume referential integrity - ON" />
 
@@ -152,9 +152,7 @@ Before you begin, ensure you have the following:
 
 ### No integrity
 
-13. Create a report page **No integrity** and **Referential integrity**.
-
-14. Add a table visual. Use tables **lineitem_1**, **part_1**, **supplier_1**. Add columns as follows:
+13. Create a report page **No integrity**. Add a table visual. Add columns from tables **lineitem_1**, **part_1**, and **supplier_1** as follows:
     - Sum of **`l_quantity`**
     - Sum of **`l_discount`**
     - Sum of **`l_extendedprice`**
@@ -174,11 +172,9 @@ Before you begin, ensure you have the following:
 
 17. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-18. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile.
+18. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
-    <img width="600" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
-
-19. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
+    <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
 
 > [!NOTE]
 > Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
@@ -213,9 +209,7 @@ Before you begin, ensure you have the following:
 
 ### Referential Integrity
 
-22. Create a report page **Referential integrity**.
-
-23. Add a table visual. Use tables **lineitem_2**, **part_2**, **supplier_2**. Add columns as follows:
+22. Create a report page **Referential integrity**. Add a table visual. Add columns from tables **lineitem_2**, **part_2**, and **supplier_2** as follows:
     - Sum of **`l_quantity`**
     - Sum of **`l_discount`**
     - Sum of **`l_extendedprice`**
@@ -235,11 +229,9 @@ Before you begin, ensure you have the following:
 
 26. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-27. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile.
+27. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **754ms** and bytes read **167MB**.
 
-    <img width="600" src="./images/QueryProfile2.png" alt="Query profile - no integrity" />
-
-28. We can see that the total tasks time was **754ms** and bytes read **167MB**.
+    <img width="400" src="./images/QueryProfile2.png" alt="Query profile - no integrity" />
 
 29. Check also the SQL-query text.
 
