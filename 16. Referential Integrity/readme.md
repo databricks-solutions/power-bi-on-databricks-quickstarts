@@ -52,8 +52,6 @@ Before you begin, ensure you have the following:
     ```
 
 3. Create schema **`tpch_nointegrity`** and tables by replicating tables from **`samples`** catalog.
-
-
     ```sql
     CREATE SCHEMA IF NOT EXISTS tpch_nointegrity;
     USE SCHEMA tpch_nointegrity;
@@ -130,7 +128,7 @@ Before you begin, ensure you have the following:
 > [!IMPORTANT]
 > Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, we will be able to analyze query profiles even after multiple report refreshes.
 
-10. If relationships are not created automatically, create table relationships as follows.
+9. If relationships are not created automatically, create table relationships as follows.
    - **`part_1`** → **`lineitem_1`** 
    - **`supplier_1`** → **`lineitem_1`** 
    - **`part_2`** → **`lineitem_2`** 
@@ -172,19 +170,14 @@ Before you begin, ensure you have the following:
 
 16. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile.
+17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
     <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
-
-18. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
 > [!NOTE]
 > Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
 
-
-
-20. Check also the SQL-query text.
-
+18. Check also the SQL-query text.
     ``` sql
     select
         SUM(`l_tax`) as `C1`, ...
@@ -213,7 +206,7 @@ Before you begin, ensure you have the following:
 
 ### Referential Integrity
 
-22. Create a report page **Referential integrity**. Add a table visual. Add columns from tables **lineitem_2**, **part_2**, and **supplier_2** as follows:
+19. Create a report page **Referential integrity**. Add a table visual. Add columns from tables **lineitem_2**, **part_2**, and **supplier_2** as follows:
     - Sum of **`l_quantity`**
     - Sum of **`l_discount`**
     - Sum of **`l_extendedprice`**
@@ -223,22 +216,21 @@ Before you begin, ensure you have the following:
     - Latest **`l_shipdate`**
     - Latest **`l_commitdate`**
 
-24. Add slicers as follows:
+20. Add slicers as follows:
     - **s_name** - `Supplier#000000001`
     - **p_container** - `JUMBO BAG`.
 
-25. The report should look like on the screenshot below.
+21. The report should look like on the screenshot below.
     
     <img width="600" src="./images/SampleReport2.png" alt="Sample report - assume referential integrity" />
 
-26. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
+22. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-27. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **754ms** and bytes read **167MB**.
+23. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **754ms** and bytes read **167MB**.
 
     <img width="400" src="./images/QueryProfile2.png" alt="Query profile - no integrity" />
 
-29. Check also the SQL-query text.
-
+24. Check also the SQL-query text.
     ``` sql
     select
         SUM(`l_tax`) as `C1`, ...
@@ -311,7 +303,7 @@ Additionally, Power BI uses CAST on join key columns if column data types are no
 
 Altogether `LEFT OUTER JOIN` and `CAST` resulted in less efficient query execution, though the result was correct. By aligning data types of the columns participating in `JOIN` and enabling [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) setting on the relationships, we managed to achieve more efficient query execution. Though total wall-clock duration difference in our test was negligible, `Total tasks time` and `Bytes read` metrics were significantly improved after applying optimizations. This may be even more important as data volume and the number of concurrent queries grow.
 
-> [!IMPORTANT]
+> [!CAUTION]
 > Please pay attention to [Requirements for Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity#requirements-for-using-assume-referential-integrity).  The following requirements are necessary for Assume referential integrity to work properly:
 >- Data in the **From** column in the relationship is never Null or blank
 >- For each value in the **From** column, there's a corresponding value in the **To** column.
