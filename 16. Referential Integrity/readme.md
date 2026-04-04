@@ -332,4 +332,4 @@ Using the same data types for join key columns and [Assume referential integrity
 
 ## Power BI Template 
 
-A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) is present in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity.  To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.
+A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) is present in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity.  To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`**, **`Schema1`** and **`Schema2`** names that correspond to the environment set up in the instructions above.
