@@ -13,7 +13,7 @@ USE SCHEMA tpch;
 -- =====================================================================================================================
 
 -- Create test tables based on samples.tpch dataset
-CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.region;
+CREATE OR REPLACE TABLE region AS SELECT * FROM samples.tpch.region;
 CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.nation;
 CREATE OR REPLACE TABLE customer AS SELECT * FROM samples.tpch.customer;
 CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;

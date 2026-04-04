@@ -118,7 +118,7 @@ In scenarios D, G, and H, StreamBeforeRequestCompletes is False and the [Spooler
 In all scenarios, you can see the times are similar between 12:14, 12:57, and 13:32 minutes, respectively. In all three scenarios the tests were performed with SSDs on the E series VM configured with NVMe. Using this configuration mix, it doesn’t appear that the Spooler directory location provides significant performance improvements.  Since the C drive configuration gave the best performance it seems prudent to keep the C drive default configuration.  However, it is possible that that the Spooler directory setting might provide more value on a different VM configurations. 
 
 ### 6. Logical Partitioning
-As outlined in the [QuickStart samples guide](https://github.com/yati1002/Power-BI-DatabricksSQL-QuickStart-Samples/tree/main/03.%20Logical%20Partitioning), logical partitioning can often help with Power BI Import performance as multiple logical partitions in the Semantic Model can be processed at the same time. 
+As outlined in the [Logical Partitioning QuickStart](../03.%20Logical%20Partitioning/), logical partitioning can often help with Power BI Import performance as multiple logical partitions in the Semantic Model can be processed at the same time. 
  
 In scenario F, logical partitions were created for the inventory and store_sales table to have 5 partitions each.  When combined with the StreamBeforeRequestCompletes setting, the benefit from adding Logical Partitions was negligible (15 second improvement) even though the parallelization settings were increased to 30 (Max Parallelism Per Refresh and Data Source Default Max Connections).  
 

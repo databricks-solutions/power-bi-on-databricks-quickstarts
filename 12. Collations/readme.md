@@ -14,7 +14,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql

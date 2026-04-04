@@ -4,7 +4,7 @@
 As per Microsoft documentation:
 > _[Automatic Aggregations](https://learn.microsoft.com/en-us/power-bi/enterprise/aggregations-auto) in Power BI use state-of-the-art machine learning (ML) to continuously optimize DirectQuery semantic models for maximum report query performance. Automatic aggregations are built on top of existing user-defined aggregations infrastructure first introduced with composite models for Power BI_.
 
-In this quickstart, we showcase how to enable [Automatic Aggregations](https://learn.microsoft.com/en-us/power-bi/enterprise/aggregations-auto) in Power BI semantic model and train Automatic Aggregations in order to speed up exploring report. You can follow the steps mentioned in the [Step by step walkthrough](#step-by-step-walkthrough) section.
+In this quickstart, we showcase how to enable [Automatic Aggregations](https://learn.microsoft.com/en-us/power-bi/enterprise/aggregations-auto) in a Power BI semantic model and train Automatic Aggregations in order to speed up report exploration. You can follow the steps mentioned in the [Step-by-step walkthrough](#step-by-step-walkthrough) section.
 
 
 
@@ -19,7 +19,7 @@ Before you begin, ensure you have the following:
 
 
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql
@@ -31,7 +31,7 @@ Before you begin, ensure you have the following:
 
 2. Create test tables in the catalog by replicating tables from **`samples`** catalog.
     ```sql
-   CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.region;
+   CREATE OR REPLACE TABLE region AS SELECT * FROM samples.tpch.region;
    CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.nation;
    CREATE OR REPLACE TABLE customer AS SELECT * FROM samples.tpch.customer;
    CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
@@ -49,7 +49,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 6. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
 
@@ -138,7 +138,7 @@ Before you begin, ensure you have the following:
 
 19. Click Train and Refresh Now to start the aggregations training manually. You can also configure scheduled refresh here.
    
-20. Once the model is trained, Power BI will have aggregated values in in-memory cache. Next time you interact with the report using similar patterns (dimensions, measures, filters) Power BI will leverage cached aggregations to serve the queries and will not send queries to Databricks SQL Warehouse. Hence, you may expect sub-second report refresh performance.
+20. Once the model is trained, Power BI will have aggregated values in the in-memory cache. Next time you interact with the report using similar patterns (dimensions, measures, filters) Power BI will leverage cached aggregations to serve the queries and will not send queries to Databricks SQL Warehouse. Hence, you may expect sub-second report refresh performance.
 
 21. Open the report in the browser. Open Performance Analyzer - **Edit** → **View** → **Performance Analyzer** → **Start recording**.
 
@@ -146,7 +146,7 @@ Before you begin, ensure you have the following:
 
     <img width="800" src="./images/PostAA-PerformanceAnalyzer.png" alt="Performance Analyzer" />
 
-23. In Databricks Query History, you should also see that there are no new SQL-queries fired by Power BI to render the report page.
+23. In Databricks Query History, you should also see that there are no new SQL queries fired by Power BI to render the report page.
 
 24. Now, add set another page filter in the report - **n_name** = **ALGERIA**. You should see that the table refresh is slower. In our test it took **3141ms**. This is because Power BI does not have aggregations at `{r_name, n_name}` granularity, therefore Power BI has to retrieve data via DirectQuery.
 
@@ -163,6 +163,6 @@ Automatic aggregations require minimal setup, self-optimize over time, and remov
 
 
 
-## Power BI Template 
+## Power BI template 
 
 A Power BI template [Automatic Aggregations.pbit](./Automatic%20Aggregations.pbit) and [Automatic Aggregations.sql](./Automatic%20Aggregations.sql) script are provided in this folder to demonstrate the difference in Power BI behaviour when using *Import*, *DirectQuery*, and *Dual* storage modes outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.

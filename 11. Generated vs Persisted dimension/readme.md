@@ -17,7 +17,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql
@@ -73,7 +73,7 @@ Before you begin, ensure you have the following:
 
 8. Refresh visuals using [Performance Analyzer](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer) in Power BI Desktop.
    
-9. Check the number of SQL-queries in Databricks Query History. You should see 8 SQL-queries, 1 SQL-query to retrieve records for **date_generated** table and 7 SQL-queries to calculate counts of orders per year.
+9. Check the number of SQL queries in Databricks Query History. You should see 8 SQL queries, 1 SQL query to retrieve records for **date_generated** table and 7 SQL queries to calculate counts of orders per year.
     <img width="1000" src="./images/03.png" alt="Query History" />
 
 10. Next create a table visual and add **`year`** column from **`date_persisted`** table, as well as **`Count of o_orderkey`**. Turn off Totals for the table visual.
@@ -82,7 +82,7 @@ Before you begin, ensure you have the following:
 
 11. Refresh visuals using [Performance Analyzer](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer) in Power BI Desktop.
     
-12. Check the number of SQL-queries in Databricks Query History. You should see only 1 SQL-query to retrieve counts of orders for all years at once. As **`date_persisted`** table is set to _Dual_ mode, data for this table is cached in memory.
+12. Check the number of SQL queries in Databricks Query History. You should see only 1 SQL query to retrieve counts of orders for all years at once. As **`date_persisted`** table is set to _Dual_ mode, data for this table is cached in memory.
 
     <img width="1000" src="./images/05.png" alt="Query History" />
 
@@ -90,10 +90,10 @@ Before you begin, ensure you have the following:
 
 ## Conclusion
 
-Persisting dimension tables in the data source, such as Delta tables in Unity Catalog, and configuring them with _Dual_ storage mode in Power BI, reduces the number of SQL queries Power BI generates when using _DirectQuery_ or _Composite models_, leading to significantly improved performance and a more responsive end-user experience. This approach lowers the workload on both Databricks SQL and Power BI, enabling organizations to serve more users efficiently while costs down.
+Persisting dimension tables in the data source, such as Delta tables in Unity Catalog, and configuring them with _Dual_ storage mode in Power BI, reduces the number of SQL queries Power BI generates when using _DirectQuery_ or _Composite models_, leading to significantly improved performance and a more responsive end-user experience. This approach lowers the workload on both Databricks SQL and Power BI, enabling organizations to serve more users efficiently while reducing costs.
 
 
 
-## Power BI Template 
+## Power BI template 
 
-A Power BI template [Generate vs Persisted dimension.pbit](./Generated%20vs%20Persisted%20dimension.pbit) and [Generate vs Persisted dimension.sql](./Generated%20vs%20Persisted%20dimension.sql) script are provided in this folder to demonstrate the approach of using persisted dimensions outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.
+A Power BI template [Generated vs Persisted dimension.pbit](./Generated%20vs%20Persisted%20dimension.pbit) and [Generated vs Persisted dimension.sql](./Generated%20vs%20Persisted%20dimension.sql) script are provided in this folder to demonstrate the approach of using persisted dimensions outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.

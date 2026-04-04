@@ -17,7 +17,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql
@@ -71,16 +71,16 @@ Before you begin, ensure you have the following:
 
 7. Refresh visuals using [Performance Analyzer](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer) in Power BI Desktop.
 
-8. Check the number of SQL-queries in Databricks Query History. You should see 3 SQL-queries, each calculating one of the measures used in the table visual.
+8. Check the number of SQL queries in Databricks Query History. You should see 3 SQL queries, each calculating one of the measures used in the table visual.
 
     <img width="1000" src="./images/03.png" alt="Query history" /> 
 
 > [!IMPORTANT]
->  The reason why Power BI generated 3 SQL-queries is that the measures use related table **`part`** to filter data. Therefore, Power BI is not able to combine these 3 queries into a single one.
+>  The reason why Power BI generated 3 SQL queries is that the measures use related table **`part`** to filter data. Therefore, Power BI is not able to combine these 3 queries into a single one.
 
 9. Next, we will be using **`orders_transformed`** view which for every order item identifies the type of bag. 
 
-10. In Power BI semantic model in **`orders_transformed`** table create 3 calculated measures using the following DAX-formulas. These measures produce the same results as original measures.
+10. In the Power BI semantic model in the **`orders_transformed`** table create 3 calculated measures using the following DAX-formulas. These measures produce the same results as original measures.
     ```
     CountOrdersLargeBag_v2 = SUM(orders_transformed[lg_bag])
     CountOrdersMediumBag_v2 = SUM(orders_transformed[med_bag])
@@ -93,12 +93,12 @@ Before you begin, ensure you have the following:
 
 12. Refresh visuals using [Performance Analyzer](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer) in Power BI Desktop.
 
-13. Check the number of SQL-queries in Databricks Query History. You should see only 1 SQL-queries.
+13. Check the number of SQL queries in Databricks Query History. You should see only 1 SQL query.
     
     <img width="1000" src="./images/05.png" alt="Query history" />
 
 > [!IMPORTANT]
-> The reason why Power BI generated only 1 SQL-queries in this case is that the measures use SUM aggregation function over columns in the same table **`orders_transformed`**. Therefore, Power BI could use as single SQL-query.
+> The reason why Power BI generated only 1 SQL query in this case is that the measures use SUM aggregation function over columns in the same table **`orders_transformed`**. Therefore, Power BI could use a single SQL query.
 
 
 14. Clean up your environment by dropping the catalog.

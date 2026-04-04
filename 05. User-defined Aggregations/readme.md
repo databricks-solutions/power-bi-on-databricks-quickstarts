@@ -16,7 +16,7 @@ Before you begin, ensure you have the following:
 
 
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 ### Preparation
 
@@ -60,12 +60,12 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 6. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
 
 7. Add tables to the semantic model as follows.
-   - **`v_nation`** - *DirectQuery* storage mode. Dimension table containing nation name and details. Rename it to `nation` in Power BI semantic model.
+   - **`v_nation`** - *DirectQuery* storage mode. Dimension table containing nation name and details. Rename it to `nation` in the Power BI semantic model.
    - **`customer`** - *DirectQuery* storage mode. Dimension table containing customer information and connected to nation dimension table using nationkey.
    - **`orders`** - *DirectQuery* storage mode. Fact table containing orders information and connected to customer dimension using customerkey.
    - **`lineitem`** - *DirectQuery* storage mode. Fact table containing details like order shipment date, discount price etc. 
@@ -117,11 +117,11 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
    <img width="800" src="./images/DirectQuery-DAXStudio.png" alt="DirectQuery - DAX Studio" />
 
-7. You can also find the SQL-query execution time by looking at Databricks Query History. As shown below, the query took **2.053 sec** and read **~38M** rows. 
+7. You can also find the SQL query execution time by looking at Databricks Query History. As shown below, the query took **2.053 sec** and read **~38M** rows. 
 
    <img width="400" src="./images/DirectQuery-QueryProfile.png" alt="DirectQuery - query profile" />
 
-   The SQL-query looks as follows. Power BI built a SQL-query joining **`nation`** dimension table with **`orders`** and **`lineitem`** fact tables.   
+   The SQL query looks as follows. Power BI built a SQL query joining **`nation`** dimension table with **`orders`** and **`lineitem`** fact tables.   
    
 
    ``` sql
@@ -199,7 +199,7 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
       
       <img width="400" src="./images/AggTable-QueryProfile.png" alt="Query profile" />
       
-      The SQL-query looks as follows. Power BI built a SQL-query joining **`nation`** dimension table with aggregated table **`lineitem_by_nation_agg`** which is much smaller than **`orders`** and **`lineitem`**, hence the query is much more efficient.
+      The SQL query looks as follows. Power BI built a SQL query joining **`nation`** dimension table with aggregated table **`lineitem_by_nation_agg`** which is much smaller than **`orders`** and **`lineitem`**, hence the query is much more efficient.
 
       ``` sql
       select ...
@@ -233,6 +233,6 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
 
 
-## Power BI Template
+## Power BI template
 
 A Power BI template [User-defined Aggregations.pbit](./User-defined%20Aggregations.pbit), as well as supporting [scripts](./scripts/), are present in this folder to demonstrate the usage of *User-defined Aggregations* outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.

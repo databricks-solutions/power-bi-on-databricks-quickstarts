@@ -68,7 +68,7 @@ To set up and configure a service principal for M2M OAuth, do the following:
 1. Create a service principal and assign it to a workspace. See [Add service principals to your account](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/manage-service-principals#-add-service-principals-to-your-account).
     - If you choose Microsoft Entra ID managed as your Management option during setup, paste the application or client ID for the service principal.
 2. Set up a client secret in Databricks to generate access tokens. See [Step 1: Create an OAuth secret](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/auth/oauth-m2m#-step-1-create-an-oauth-secret).
-    - For service principals synced from Entra, the client secret must be set in Databricks. This secret is not the same secrete created in Entra ID.
+    - For service principals synced from Entra, the client secret must be set in Databricks. This secret is not the same secret created in Entra ID.
 3. Grant the service principal SELECT permissions on the data assets used in Power BI. See [Grant permissions on objects in a Unity Catalog metastore](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/manage-privileges/#-grant-permissions-on-objects-in-a-unity-catalog-metastore).
 4. Grant the service principal [CAN USE](https://docs.databricks.com/aws/en/security/auth/access-control/#sql-warehouse-acls) permissions on the SQL warehouse used to connect to Power BI. See [Manage a SQL warehouse](https://learn.microsoft.com/en-us/azure/databricks/compute/sql-warehouse/create#manage).
 5. In **Power BI Desktop**, use **Databricks Client Credentials** authentication method and enter service principal Client ID and Client Secret as shown below.
@@ -85,9 +85,9 @@ To set up and configure a service principal for M2M OAuth, do the following:
 
 
 
-## Secrets Rotation
+## Secret Rotation
 
-While using **Databricks Managed Service Principals** with Power BI greatly enhances security, there remains an important requirement: **robust secrets rotation**.
+While using **Databricks Managed Service Principals** with Power BI greatly enhances security, there remains an important requirement: **robust secret rotation**.
 
 This quickstart provides **reference implementations** for automating the rotation of secrets associated with Databricks Service Principals, ensuring secure and uninterrupted connectivity between **Power BI** and **Databricks**.
 
@@ -152,7 +152,7 @@ M2M OAuth authentication should be used for semantic models that use DirectQuery
 
 Enabling this setting is not supported via the Power BI REST API, therefore not included in the sample code. You may want to enable it manually.
 
-In the case of **Composite models**, that combine **DirectQuery** and **Dual** storage modes, when the SSO option is enabled with M2M OAuth authentication, all data refreshes(scheduled or triggered) of the **Dual** mode tables will use the M2M OAuth credentials, while **DirectQuery** queries will use the report viewers credentials.
+In the case of **Composite models**, that combine **DirectQuery** and **Dual** storage modes, when the SSO option is enabled with M2M OAuth authentication, all data refreshes (scheduled or triggered) of the **Dual** mode tables will use the M2M OAuth credentials, while **DirectQuery** queries will use the report viewers credentials.
 
 
 ## Conclusion

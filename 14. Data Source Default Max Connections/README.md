@@ -18,7 +18,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 ### Preparation
 
@@ -52,7 +52,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 6. Connect to Databricks SQL Warehouse, **`powerbiquickstarts`** catalog, **`tpch`** schema, and add the following tables to the semantic model. All tables should be set to **DirectQuery** storage mode.
     - `region`
@@ -270,12 +270,12 @@ Increasing **Data Source Default Max Connections** to 50 delivered notably faste
 
 Tuning **Data Source Default Max Connections** is most beneficial for high-concurrency scenarios. For low concurrency, setting it too high can trigger unnecessary scale-out and degrade user experience.
 
-You can find more information on how **Data Source Default Max Connections** impacts Power BI query parallelization [here](https://learn.microsoft.com/en-us/power-bi/guidance/directquery-model-guidance#optimize-model-design). Please note that the maximum effective value of **Data Source Default Max Connections** is subject for [Power BI SKU limitations](https://learn.microsoft.com/en-us/fabric/enterprise/powerbi/service-premium-what-is#semantic-model-sku-limitation).
+You can find more information on how **Data Source Default Max Connections** impacts Power BI query parallelization [here](https://learn.microsoft.com/en-us/power-bi/guidance/directquery-model-guidance#optimize-model-design). Please note that the maximum effective value of **Data Source Default Max Connections** is subject to [Power BI SKU limitations](https://learn.microsoft.com/en-us/fabric/enterprise/powerbi/service-premium-what-is#semantic-model-sku-limitation).
 
 > [!IMPORTANT]
 > Please note that **Data Source Default Max Connections** and **Max Parallelism Per Query** settings work differently.
 > - **Max Parallelism Per Query** defines how many SQL queries generated for ***a single DAX-query*** (a single visual) can be triggered concurrently.
-> - **Data Source Default Max Connections** defines how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all all users for all DAX-queries (all visuals).
+> - **Data Source Default Max Connections** defines how many SQL queries ***in total*** can be triggered concurrently by a semantic model. This includes all SQL queries generated for all users for all DAX-queries (all visuals).
 
 
 ## Power BI template
