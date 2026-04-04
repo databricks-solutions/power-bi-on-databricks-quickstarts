@@ -162,22 +162,22 @@ Before you begin, ensure you have the following:
     - Latest **`l_shipdate`**
     - Latest **`l_commitdate`**
 
-15. Add slicers as follows:
+14. Add slicers as follows:
     - **s_name** - `Supplier#000000001`
     - **p_container** - `JUMBO BAG`.
 
-16. The report should look like on the screenshot below.
+15. The report should look like on the screenshot below.
     
     <img width="600" src="./images/SampleReport1.png" alt="Sample report - no integrity" />
 
-17. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
+16. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-18. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
+17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
     <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
 
-> [!NOTE]
-> Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
+    > [!NOTE]
+    > Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
 
 20. Check also the SQL-query text.
 
