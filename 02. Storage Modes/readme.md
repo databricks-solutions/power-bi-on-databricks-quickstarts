@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[Storage modes](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-storage-mode) are a critical component of Power BI data modeling. Whether you’re a seasoned practitioner or just getting started, grasping how storage modes work is key to optimizing report performance and managing data efficiently. This quickstart will help you navigate the different storage modes available in Power BI - _DirectQuery_, _Import_, and _Dual_ - and explains how each option impacts performance and user experience. Through practical examples, you’ll see side-by-side comparisons and learn how leveraging _Dual_ storage mode can significantly enhance report responsiveness. To get started, follow the detailed instructions in the [Step by step walkthrough](#step-by-step-walkthrough) section.
+[Storage modes](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-storage-mode) are a critical component of Power BI data modeling. Whether you’re a seasoned practitioner or just getting started, grasping how storage modes work is key to optimizing report performance and managing data efficiently. This quickstart will help you navigate the different storage modes available in Power BI - _DirectQuery_, _Import_, and _Dual_ - and explains how each option impacts performance and user experience. Through practical examples, you’ll see side-by-side comparisons and learn how leveraging _Dual_ storage mode can significantly enhance report responsiveness. To get started, follow the detailed instructions in the [Step-by-step walkthrough](#step-by-step-walkthrough) section.
 
 
 
@@ -14,13 +14,13 @@ Before you begin, ensure you have the following:
 - [Power BI Desktop](https://powerbi.microsoft.com/desktop/), latest version is highly recommended
 
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 In the next section we will compare different storage modes and showcase which storage mode is a good fit for dimension table. There are two common query patterns for dimension tables:
 1. Retrieving values for slicers/filters.
 2. Aggregation on fact tables using dimension data.
 
-For our testing scenario we use a **Small** Pro SQL Warehouse. We will create report with both query pattterns highlighted above. 
+For our testing scenario we use a **Small** Pro SQL Warehouse. We will create report with both patterns highlighted above. 
 
 
 ### 1. Data Model
@@ -36,7 +36,7 @@ For our testing scenario we use a **Small** Pro SQL Warehouse. We will create re
    <img width="600" src="./images/DatabricksConnection.png" alt="Azure Databricks connection" />
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 4. Connect to **`samples`** catalog, **`tpch`** schema.
 
@@ -141,6 +141,6 @@ Using **Dual** mode for dimension tables in Power BI offers key benefits over Im
 
 
 
-## Power BI Template 
+## Power BI template 
 
 A Power BI template [Storage Modes.pbit](./Storage%20Modes.pbit) is present in this folder to demonstrate the difference in Power BI behaviour when using *Import*, *DirectQuery*, and *Dual* storage modes outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.

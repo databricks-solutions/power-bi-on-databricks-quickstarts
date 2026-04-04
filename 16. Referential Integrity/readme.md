@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Understanding how Power BI generates SQL-queries when using _DirectQuery_ or _Composite Models_ and modeling data accordingly is crucial for achieving optimal performance.
+Understanding how Power BI generates SQL queries when using _DirectQuery_ or _Composite Models_ and modeling data accordingly is crucial for achieving optimal performance.
 
-In this quickstart, we explore how [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) in Power BI semantic model can help improve query execution efficiency in Databricks SQL to achieve better performance and scalability. You can follow the steps mentioned in the [Step by step walkthrough](#step-by-step-walkthrough) section.
+In this quickstart, we explore how [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) in a Power BI semantic model can help improve query execution efficiency in Databricks SQL to achieve better performance and scalability. You can follow the steps mentioned in the [Step-by-step walkthrough](#step-by-step-walkthrough) section.
 
 
 
@@ -17,7 +17,7 @@ Before you begin, ensure you have the following:
 
 
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 ### Preparation
 
@@ -110,7 +110,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 7. Connect to **`powerbiquickstarts`** catalog.
 
@@ -126,7 +126,7 @@ Before you begin, ensure you have the following:
     | tpch             | v_lineitem | DirectQuery  | lineitem_2 |
 
 > [!IMPORTANT]
-> Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, we will be able to analyze query profiles even after multiple report refreshes.
+> Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis.
 
 9. If relationships are not created automatically, create table relationships as follows.
    - **`part_1`** → **`lineitem_1`** 
@@ -170,14 +170,14 @@ Before you begin, ensure you have the following:
 
 16. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
+17. Open Databricks Query History. Notice the latest SQL query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
     <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
 
 > [!NOTE]
 > Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
 
-18. Check also the SQL-query text.
+18. Check also the SQL query text.
     ``` sql
     select
         SUM(`l_tax`) as `C1`, ...
@@ -226,11 +226,11 @@ Before you begin, ensure you have the following:
 
 22. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-23. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **754ms** and bytes read **167MB**.
+23. Open Databricks Query History. Notice the latest SQL query from Power BI. Open the query profile. We can see that the total tasks time was **754ms** and bytes read **167MB**.
 
     <img width="400" src="./images/QueryProfile2.png" alt="Query profile - no integrity" />
 
-24. Check also the SQL-query text.
+24. Check also the SQL query text.
     ``` sql
     select
         SUM(`l_tax`) as `C1`, ...
@@ -270,7 +270,7 @@ Before you begin, ensure you have the following:
 ### Analysis
 
 We observed that in the second test SQL Warehouse spent significant less time on execution (*Total tasks time*) and read significant less data (*Bytes read*). Why did it happen?
-If we check both SQL-queries above, we will see that in the first test Power BI generated the query using **`left outer join`** and **`cast`** on join key columns.
+If we check both SQL queries above, we will see that in the first test Power BI generated the query using **`left outer join`** and **`cast`** on join key columns.
 
 ```sql
 ...
@@ -297,7 +297,7 @@ While in the second test Power BI generated the query using **`inner join`** wit
 ...
 ```
 
-Power BI uses `LEFT OUTER JOIN` in SQL-queries by default. However, when [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) setting is enabled for a relationship, Power BI uses `INNER JOIN`.
+Power BI uses `LEFT OUTER JOIN` in SQL queries by default. However, when [Assume referential integrity](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-assume-referential-integrity) setting is enabled for a relationship, Power BI uses `INNER JOIN`.
 
 Additionally, Power BI uses CAST on join key columns if column data types are not the same. In our case we used BIGINT for dimension table columns and INT for fact table columns. Therefore, Power BI used ``cast(`OTBL`.`l_partkey` as DOUBLE) = cast(`ITBL`.`p_partkey` as DOUBLE)``.
 
@@ -318,6 +318,6 @@ Using the same data types for join key columns and [Assume referential integrity
 
 
 
-## Power BI Template 
+## Power BI template 
 
-A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) is present in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity.  To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`**, **`Schema1`** and **`Schema2`** names that correspond to the environment set up in the instructions above.
+A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) as well [Referential Integrity.sql](./Referential%20Integrity.sql) script are provided in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity. To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`**, **`Schema1`** and **`Schema2`** names that correspond to the environment set up in the instructions above.

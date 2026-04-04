@@ -14,7 +14,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql
@@ -26,7 +26,7 @@ Before you begin, ensure you have the following:
 
 2. Create a table in the catalog by replicating tables from **`samples`** catalog.
     ```sql
-    CREATE OR REPLACE TABLE table customer_lcase (
+    CREATE OR REPLACE TABLE customer_lcase (
         c_custkey bigint,
         c_name string,
         c_address string,
@@ -77,4 +77,4 @@ For more information about Collations, including locales and case and accent mod
 
 ## Power BI template
 
-A Power BI template [Collations.pbit](./Collations.pbit) and [Collations.sql](./Collations.sql) script are  provided in this folder to demonstrate the usage of Collations outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.
+A Power BI template [Collations.pbit](./Collations.pbit) and [Collations.sql](./Collations.sql) script are provided in this folder to demonstrate the usage of Collations outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.

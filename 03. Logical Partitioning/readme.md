@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[Logical Partitioning](https://learn.microsoft.com/en-us/analysis-services/tabular-models/create-and-manage-tabular-model-partitions?view=asallproducts-allversions) is a powerful feature that enables you to divide large tables into logical segments, allowing each partition to be refreshed independently. This can dramatically improve the refresh performance of your Power BI semantic models by enabling parallel processing of multiple partitions. In this quickstart, we'll demonstrate how Logical Partitioning can accelerate data refresh times and show you how to implement it step by step. For detailed instructions, refer to the [Step by step walkthrough](#step-by-step-walkthrough) section.
+[Logical Partitioning](https://learn.microsoft.com/en-us/analysis-services/tabular-models/create-and-manage-tabular-model-partitions?view=asallproducts-allversions) is a powerful feature that enables you to divide large tables into logical segments, allowing each partition to be refreshed independently. This can dramatically improve the refresh performance of your Power BI semantic models by enabling parallel processing of multiple partitions. In this quickstart, we'll demonstrate how Logical Partitioning can accelerate data refresh times. For detailed instructions, refer to the [Step-by-step walkthrough](#step-by-step-walkthrough) section.
 
 > [!NOTE]
 > We use the term **Logical Partitioning** to distinguish from [Delta partitioning](https://docs.databricks.com/gcp/en/tables/partitions). By Logical Partitioning, we assume splitting tables into logical segments within **Power BI semantic models**.
@@ -22,7 +22,7 @@ Before you begin, ensure you have the following:
 
   
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 1. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
 
@@ -33,7 +33,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 4. Connect to **`samples`** catalog, **`tpch`** schema.
 
@@ -68,6 +68,6 @@ When using **Import** mode, Logical partitioning in Power BI allows large tables
 
 
 
-## Power BI Template 
+## Power BI template 
 
 A Power BI template [Logical Partitioning.pbit](./Logical%20Partitioning.pbit) is present in this folder to demonstrate the benefits of Logical Partitioning. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.

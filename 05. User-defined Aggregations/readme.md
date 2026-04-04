@@ -16,9 +16,9 @@ Before you begin, ensure you have the following:
 
 
 
-## Step by step walkthrough
+## Step-by-step walkthrough
 
-### 1. Data Model
+### Preparation
 
 1. Create a catalog and a schema in Databricks Unity Catalog.
     ```sql
@@ -51,25 +51,25 @@ Before you begin, ensure you have the following:
    SELECT *, now() as currenttime FROM nation;
     ```
 
-1. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
+3. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
 
-2. Search for **Databricks** and select **Azure Databricks** (or **Databricks** when using Databricks on AWS or GCP).
+4. Search for **Databricks** and select **Azure Databricks** (or **Databricks** when using Databricks on AWS or GCP).
 
-3. Enter the following values:
+5. Enter the following values:
    - **Server Hostname**: Enter the Server hostname value from Databricks SQL Warehouse connection details tab.
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
-4. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
+6. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
 
-5. Add tables to the semantic model as follows.
-   - **`v_nation`** - *DirectQuery* storage mode. Dimension table containing nation name and details. Please note that this must be the `v_nation` view, not `nation` table. The view uses `now()` functions that prevents Query Result Cache from kicking in. This will help to observe the difference in the behavior.
+7. Add tables to the semantic model as follows.
+   - **`v_nation`** - *DirectQuery* storage mode. Dimension table containing nation name and details. Rename it to `nation` in the Power BI semantic model.
    - **`customer`** - *DirectQuery* storage mode. Dimension table containing customer information and connected to nation dimension table using nationkey.
    - **`orders`** - *DirectQuery* storage mode. Fact table containing orders information and connected to customer dimension using customerkey.
    - **`lineitem`** - *DirectQuery* storage mode. Fact table containing details like order shipment date, discount price etc. 
-   
+
    - **`nation_agg`** - *DirectQuery* storage mode. Replica of **`v_nation`** table and used for aggregate table report.
    - **`customer_agg`** - *DirectQuery* storage mode. Replica of **`customer`** table and used for aggregate table report.
    - **`orders_agg`** - *DirectQuery* storage mode. Replica of **`orders`** table and used for aggregate table report.
@@ -80,7 +80,10 @@ Before you begin, ensure you have the following:
    - **`nation`** → **`customer`** → **`orders`** → **`lineitem`** 
    - **`nation_agg`** → **`customer_agg`** → **`orders_agg`** → **`lineitem_agg`** 
    - **`nation_agg`** → **`lineitem_by_nation_agg`**
-   
+
+> [!IMPORTANT]
+> Here we use `v_nation` view, not `nation` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis.
+
 > [!IMPORTANT]
 > The relationship between **`nation_agg`** and **`lineitem_by_nation_agg`** must **be One to many (1:*)** with **Single** cross-filter direction.
 
@@ -92,7 +95,7 @@ Before you begin, ensure you have the following:
 Next, we will analyze the performance of a test report using pure *DirectQuery* mode and *User-defined Aggregation*.
 
 
-#### 2.2. DirectQuery
+#### DirectQuery with no Aggregations
 
 1. Create a new report page. Add a Table visual. Add columns to the Table visual as follows.
    - **`n_nation`** from **`nation`** table
@@ -114,11 +117,11 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
    <img width="800" src="./images/DirectQuery-DAXStudio.png" alt="DirectQuery - DAX Studio" />
 
-7. You can also find the SQL-query execution time by looking at Databricks Query History. As shown below, the query took **2.053 sec** and read **~38M** rows. 
+7. You can also find the SQL query execution time by looking at Databricks Query History. As shown below, the query took **2.053 sec** and read **~38M** rows. 
 
    <img width="400" src="./images/DirectQuery-QueryProfile.png" alt="DirectQuery - query profile" />
 
-   The SQL-query looks as follows. Power BI built a SQL-query joining **`nation`** dimension table with **`orders`** and **`lineitem`** fact tables.   
+   The SQL query looks as follows. Power BI built a SQL query joining **`nation`** dimension table with **`orders`** and **`lineitem`** fact tables.   
    
 
    ``` sql
@@ -153,7 +156,7 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
    ```
 
 
-#### 2.3. User-defined Aggregations
+#### DirectQuery with User-defined Aggregations
 
 1. Switch to Power BI Desktop → **Model view**.
 
@@ -176,27 +179,27 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
    - Sum of **`l_quantity`** from **`lineitem_agg`** table
    - Earliest **`l_shipdate`** from **`lineitem_agg`** table
 
-2. Open **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**.
+5. Open **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**.
 
-7. Perfomance Analyzer tab will display the Table visual and a DAX query. Click on **Copy Query**. The DAX query should look similar to [Sample_DAX_Query_Using_Aggregations](./scripts/Sample_DAX_Query_Using_Aggregations.dax) script. Below is the screenshot of **User-defined Aggregation** report page.
+6. Perfomance Analyzer tab will display the Table visual and a DAX query. Click on **Copy Query**. The DAX query should look similar to [Sample_DAX_Query_Using_Aggregations](./scripts/Sample_DAX_Query_Using_Aggregations.dax) script. Below is the screenshot of **User-defined Aggregation** report page.
 
    <img width="800" src="./images/AggTable-Report.png" alt="Aggregated table - report" />
 
-8. Open **DAX Studio**, click **Connect**, choose local Power BI mode, click **Connect**, and click **Server Timings**.
+7. Open **DAX Studio**, click **Connect**, choose local Power BI mode, click **Connect**, and click **Server Timings**.
 
-9. Open the [Sample_DAX_Query_Using_Aggregations.dax](./scripts/Sample_DAX_Query_Using_Aggregations.dax) query or paste DAX-query that was previously copied in Power BI Desktop. Click **Run**.
+8. Open the [Sample_DAX_Query_Using_Aggregations.dax](./scripts/Sample_DAX_Query_Using_Aggregations.dax) query or paste DAX-query that was previously copied in Power BI Desktop. Click **Run**.
 
-10. As shown in screenshot below the query takes **1.077 sec**.
+9. As shown in screenshot below the query takes **1.077 sec**.
    
       <img width="800" src="./images/AggTable-DAXStudio.png" alt="Aggregated table - DAX Studio" />
    
       Also, as shown in the screenshot, the first row under **RewriteAttempted** shows **MatchFound**, i.e., Power BI was able to find the aggregate table for this query. Hence, during the query execution as shown in the screenshot the values are fetched from **`lineitem_by_nation_agg`** instead of **`lineitem_agg`** fact table.
 
-11. You can also find the query execution time by looking at Databricks Query History. As shown below the query took **~0.994 sec** and read only **50** rows (instead of ~**38M** rows). 
+10. You can also find the query execution time by looking at Databricks Query History. As shown below the query took **~0.994 sec** and read only **50** rows (instead of ~**38M** rows). 
       
       <img width="400" src="./images/AggTable-QueryProfile.png" alt="Query profile" />
       
-      The SQL-query looks as follows. Power BI built a SQL-query joining **`nation`** dimension table with aggregated table **`lineitem_by_nation_agg`** which is much smaller than **`orders`** and **`lineitem`**, hence the query is much more efficient.
+      The SQL query looks as follows. Power BI built a SQL query joining **`nation`** dimension table with aggregated table **`lineitem_by_nation_agg`** which is much smaller than **`orders`** and **`lineitem`**, hence the query is much more efficient.
 
       ``` sql
       select ...
@@ -230,6 +233,6 @@ Next, we will analyze the performance of a test report using pure *DirectQuery* 
 
 
 
-## Power BI Template
+## Power BI template
 
 A Power BI template [User-defined Aggregations.pbit](./User-defined%20Aggregations.pbit), as well as supporting [scripts](./scripts/), are present in this folder to demonstrate the usage of *User-defined Aggregations* outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`** and **`Schema`** names that correspond to the environment set up in the instructions above.

@@ -11,7 +11,7 @@ Before you begin, ensure you have the following:
     - [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/) must be configured for the target Databricks Workspace and authentication method using ``databricks configure`` command.
 - [Microsoft Entra ID Service Principal](https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals) which has permissions to access target Power BI workspace, dataset, gateway
     - `ClientID`, `Secret`, and `TenantID` must be stored as [Databricks secrets](https://docs.databricks.com/aws/en/security/secrets/)
-    - Entra ID Service Principal must have permisions to change settings of the dataset and the gateway (if gateway is in use)
+    - Entra ID Service Principal must have permissions to change settings of the dataset and the gateway (if gateway is in use)
 
 > [!NOTE]
 > This code utilizes the [Power BI REST API](https://learn.microsoft.com/en-us/rest/api/power-bi/) as described in the official Power BI REST API documentation and does not require installation of additional packages or libraries.
@@ -77,7 +77,7 @@ $ Update-M2M-OAuth-Credentials.sh `
 [INFO] Getting the list of secrets...
 [INFO] Secrets count: 1
 [INFO] Creating Secret...
-[INFO] Granting Service Principal MyServicePrincipal CAN USE permissionon SQL Warehouse a5ad4687dadae274...
+[INFO] Granting Service Principal MyServicePrincipal CAN USE permission on SQL Warehouse a5ad4687dadae274...
 [INFO] Getting Entra ID Service Principal...
 [INFO] Entra ID Service Principal info: appId=034be9fb-f1b5-4dd4-b666-25e8166a51c4 tenantId=9f37a392-f0ae-4280-9796-f1864a10effc
 [INFO] Acquiring Power BI access token...
@@ -106,7 +106,7 @@ need_cmd databricks
 ```
 
 
-#### 2. Validate Databricks CLI verion
+#### 2. Validate Databricks CLI version
 
 ```bash
 required_version="0.264.2"

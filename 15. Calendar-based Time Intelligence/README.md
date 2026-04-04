@@ -18,7 +18,7 @@ Before you begin, ensure you have the following:
 
 
   
-## Step by step walkthrough
+## Step-by-step walkthrough
 
 ### Preparation
 
@@ -83,7 +83,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 7. Connect to Databricks SQL Warehouse, **`powerbiquickstarts`** catalog, **`tpch`** schema, and add the following tables to the semantic model. **DirectQuery** storage mode should be set as default.
     - `lineitem`
@@ -124,13 +124,14 @@ Before you begin, ensure you have the following:
 15. Open Performance Analyzer. **Optimize** → **Performance analyzer** → **Start recording**.
 
 16. Refresh the report multiple times by clicking **Refresh visuals**. Note the refresh durations for the table visual.
-        <img width="300" src="./images/06.png" alt="Performance analyzer" />
+    
+    <img width="300" src="./images/06.png" alt="Performance analyzer" />
 
-17. Open Databricks workspace UI → **Query History**. Explore SQL-queries triggered by Power BI.
+17. Open Databricks workspace UI → **Query History**. Explore SQL queries triggered by Power BI.
 
-18. For every report refresh, Power BI Desktop triggers 3 SQL-queries. 1 SQL query per measure used in the table visual.
+18. For every report refresh, Power BI Desktop triggers 3 SQL queries. 1 SQL query per measure used in the table visual.
 
-19. Explore the SQL-queries text. You can see that Power BI Desktop generated 2 SQL-queries at ***day*** granularity (filter in `Date` column), though the report expects ***year*** granularity. Namely for measures `YTD Tax Amount` and `PY YTD Tax Amount`. These queries return **2,526** records that must be further aggregated on Power BI side.
+19. Explore the SQL queries text. You can see that Power BI Desktop generated 2 SQL queries at ***day*** granularity (filter in `Date` column), though the report expects ***year*** granularity. Namely for measures `YTD Tax Amount` and `PY YTD Tax Amount`. These queries return **2,526** records that must be further aggregated on Power BI side.
     ```sql
     ...
     inner join (
@@ -219,11 +220,11 @@ Before you begin, ensure you have the following:
 
     <img width="300" src="./images/12.png" alt="Performance analyzer" />
 
-30. Open Databricks workspace UI → **Query History**. Explore SQL-queries triggered by Power BI.
+30. Open Databricks workspace UI → **Query History**. Explore SQL queries triggered by Power BI.
 
-31. For every report refresh, Power BI Desktop triggers 3 SQL-queries. 1 SQL query per measure used in the table visual.
+31. For every report refresh, Power BI Desktop triggers 3 SQL queries. 1 SQL query per measure used in the table visual.
 
-32. Explore the SQL-queries text. You can see that now Power BI Desktop generates queries at ***year*** granularity (filter on `year` column). This results in returning only **7** records, i.e., fully aggregated resultset, therefore no need for further aggregation on Power BI side.
+32. Explore the SQL queries text. You can see that now Power BI Desktop generates queries at ***year*** granularity (filter on `year` column). This results in returning only **7** records, i.e., fully aggregated resultset, therefore no need for further aggregation on Power BI side.
 
     ```sql
     ...
