@@ -130,7 +130,7 @@ Before you begin, ensure you have the following:
 > [!IMPORTANT]
 > Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, we will be able to analyze query profiles even after multiple report refreshes.
 
-9. If relationships are not created automatically, create table relationships as follows.
+10. If relationships are not created automatically, create table relationships as follows.
    - **`part_1`** → **`lineitem_1`** 
    - **`supplier_1`** → **`lineitem_1`** 
    - **`part_2`** → **`lineitem_2`** 
