@@ -35,6 +35,16 @@ Before you begin, ensure you have the following:
     CREATE OR REPLACE TABLE part AS SELECT * FROM samples.tpch.part;
     CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
     CREATE OR REPLACE TABLE lineitem AS SELECT * FROM samples.tpch.lineitem;
+
+    CREATE OR REPLACE VIEW orders_transformed AS
+    SELECT o_orderkey, o_custkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority
+        , max(if(p_container='SM BAG', 1, 0)) AS sm_bag
+        , max(if(p_container='MED BAG', 1, 0)) AS med_bag
+        , max(if(p_container='LG BAG', 1, 0)) AS lg_bag
+    FROM orders
+        JOIN lineitem on o_orderkey=l_orderkey
+        JOIN part on l_partkey=p_partkey
+    GROUP BY ALL;
     ```
 
 3. Connect to Databricks SQL Warehouse, **`powerbiquickstarts`** catalog, **`tpch`** schema, and add the following tables/views to the semantic model. All tables should be set to **DirectQuery** storage mode.
@@ -44,8 +54,8 @@ Before you begin, ensure you have the following:
     - `customer`
     - `orders`
     - `orders_transformed`
-    - `lineitem`
-    
+    - `lineitem`   
+
 4. Create table relationships as shown on the picture below.
     <img width="800" src="./images/01.png" alt="Data model" />
 
@@ -68,18 +78,7 @@ Before you begin, ensure you have the following:
 > [!IMPORTANT]
 >  The reason why Power BI generated 3 SQL-queries is that the measures use related table **`part`** to filter data. Therefore, Power BI is not able to combine these 3 queries into a single one.
 
-9. Next we will be using **`orders_transformed`** view which for every order item identifies the type of bag.  
-    ``` sql
-    CREATE OR REPLACE VIEW orders_transformed AS
-    SELECT o_orderkey, o_custkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority
-        , max(if(p_container='SM BAG', 1, 0)) AS sm_bag
-        , max(if(p_container='MED BAG', 1, 0)) AS med_bag
-        , max(if(p_container='LG BAG', 1, 0)) AS lg_bag
-    FROM orders
-        JOIN lineitem on o_orderkey=l_orderkey
-        JOIN part on l_partkey=p_partkey
-    GROUP BY ALL;
-    ```
+9. Next, we will be using **`orders_transformed`** view which for every order item identifies the type of bag. 
 
 10. In Power BI semantic model in **`orders_transformed`** table create 3 calculated measures using the following DAX-formulas. These measures produce the same results as original measures.
     ```
@@ -89,11 +88,13 @@ Before you begin, ensure you have the following:
     ```
 
 11. Create a new report page, add a table visual, and add **`region.r_name`** column, as well as prevously created measures **`CountOrdersLargeBag_v2`**, **`CountOrdersMediumBag_v2`**, and **`CountOrdersSmallBag_v2`**. Turn off Totals for the table visual.
+    
     <img width="400" src="./images/04.png" alt="Table visual" /> 
 
 12. Refresh visuals using [Performance Analyzer](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer) in Power BI Desktop.
 
 13. Check the number of SQL-queries in Databricks Query History. You should see only 1 SQL-queries.
+    
     <img width="1000" src="./images/05.png" alt="Query history" />
 
 > [!IMPORTANT]

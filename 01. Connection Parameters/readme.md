@@ -43,7 +43,7 @@ Before you begin, ensure you have the following:
 
 1. Click **Home** → **Transform data** → **Manage Parameters**.
 2. Click **New** to create a new parameter. Use the following properties:
-   - Name - `Hostname`
+   - Name - `ServerHostname`
    - Required - `No`
    - Type - `Text`
    - Current Value - `Server hostname of your SQL Warehouse`
@@ -67,7 +67,7 @@ Before you begin, ensure you have the following:
    ```
    - After:
    ```
-   Source = Databricks.Catalogs(Hostname, HttpPath, [Catalog=null, Database=null, EnableAutomaticProxyDiscovery=null]),
+   Source = Databricks.Catalogs(ServerHostname, HttpPath, [Catalog=null, Database=null, EnableAutomaticProxyDiscovery=null]),
    ```
 3. Click **Done** → **Close & Apply**.
 4. Save the file.
@@ -82,9 +82,9 @@ Before you begin, ensure you have the following:
 2. Once publish is complete, open Power BI workspace in a web browser.
 3. Open the settings of published semantic model → expand **Parameters**.
 
-4. Now you can easily change the values of **Hostname** and **HttpPath** parameters without the need for changing these values in Power BI Desktop and republishing the semantic model.
+4. Now you can easily change the values of **ServerHostname** and **HttpPath** parameters without the need for changing these values in Power BI Desktop and republishing the semantic model.
 
-   <img width="400" src="./images/06.png" alt="Semantic model parameters" />
+   <img width="300" src="./images/06.png" alt="Semantic model parameters" />
 
 > [!TIP]
 > You can parameterize not only SQL Warehouse connectivity information but any string/number/datetime literals in your M-code. E.g., the names of **Catalog** and **Schema**.
@@ -94,7 +94,7 @@ Before you begin, ensure you have the following:
 2. Click **File** → **Save as** → choose path → Save as type **Power BI template files (*.pbit)**
 3. When prompted, optionally add template description. Click **OK**.
 
-> Now you can use this template to create new report with the same structure. However, Power BI Desktop will prompt for parameter values. Therefore, you can build the same report using a different Databricks workspace or SQL Warehouse.
+Now you can use this template to create new report with the same structure. However, Power BI Desktop will prompt for parameter values. Therefore, you can build the same report using a different Databricks workspace or SQL Warehouse.
 
 <img width="400" src="./images/07.png" alt="Creating a report using a template" />
 

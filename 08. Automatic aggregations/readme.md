@@ -21,43 +21,65 @@ Before you begin, ensure you have the following:
 
 ## Step by step walkthrough
 
-1. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
+1. Create a catalog and a schema in Databricks Unity Catalog.
+    ```sql
+    CREATE CATALOG IF NOT EXISTS powerbiquickstarts;
+    USE CATALOG powerbiquickstarts;
+    CREATE SCHEMA IF NOT EXISTS tpch;
+    USE SCHEMA tpch;
+    ```
 
-2. Search for **Databricks** and select **Azure Databricks** (or **Databricks** when using Databricks on AWS or GCP).
+2. Create test tables in the catalog by replicating tables from **`samples`** catalog.
+    ```sql
+   CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.region;
+   CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.nation;
+   CREATE OR REPLACE TABLE customer AS SELECT * FROM samples.tpch.customer;
+   CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
 
-3. Enter the following values:
+   CREATE OR REPLACE VIEW v_nation AS 
+   SELECT *, now() as currenttime FROM nation;
+    ```
+
+3. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
+
+4. Search for **Databricks** and select **Azure Databricks** (or **Databricks** when using Databricks on AWS or GCP).
+
+5. Enter the following values:
    - **Server Hostname**: Enter the Server hostname value from Databricks SQL Warehouse connection details tab.
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
 > We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
 
-4. Connect to **`samples`** catalog, **`tpch`** schema.
+6. Connect to **`powerbiquickstarts`** catalog, **`tpch`** schema.
 
-5. Add tables as follows.Below is the data model for the sample report.
+7. Add tables as follows.Below is the data model for the sample report.
    - **`region`** - dimension table, **Dual** storage mode
-   - **`nation`** - dimension table, **Dual** storage mode
+   - **`v_nation`** - dimension table, **Dual** storage mode, use **`nation`** alias
    - **`customer`** - dimension table, **DirectQuery** storage mode
    - **`orders`** - fact table, **DirectQuery** storage mode
 
-6. If relationships are not created automatically, create table relationships as follows.
+> [!IMPORTANT]
+> Here we use `v_nation` view, not `nation` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis.
+
+8. If relationships are not created automatically, create table relationships as follows.
    - **`region`** → **`nation`** → **`customer`** → **`orders`** → **`lineitem`** 
 
-7. The semantic model should look as on the screenshot below.
+9. The semantic model should look as on the screenshot below.
 
     <img width="600" src="./images/DataModel.png" alt="Data model" />
 
-8. Create a simple tabular report displaying **`r_name`**, **`n_name`**, Count of **`l_orderkey`**, Earliest **`l_shipdate`**, Sum of **`l_discount`**, and Sum of **`l_quantity`**. Add **`r_name`** and **`n_name`** columns to page filters.
+10. Create a simple tabular report displaying **`r_name`**, **`n_name`**, Count of **`l_orderkey`**, Earliest **`l_shipdate`**, Sum of **`l_discount`**, and Sum of **`l_quantity`**. Add **`r_name`** and **`n_name`** columns to page filters.
 
     <img width="600" src="./images/SampleReport.png" alt="Sample report" />
 
-9. Publish the report to Power BI Service, **Premium** workspace.
+11. Publish the report to Power BI Service, **Premium** workspace.
 
-10. Open the report in a web browser. Filter by **r_name** = **AFRICA**.
+12. Open the report in a web browser. Filter by **r_name** = **AFRICA**.
 
-11. Open Performance Analyzer - **Edit** → **View** → **Performance Analyzer** → **Start recording**.
+13. Open Performance Analyzer - **Edit** → **View** → **Performance Analyzer** → **Start recording**.
 
-12. Click **Refresh visuals**. As shown below, in our environment it took **2435ms** to refresh the visuals.
+14. Click **Refresh visuals**. As shown below, in our environment it took **2435ms** to refresh the visuals.
 
     <img width="800" src="./images/PreAA-PerformanceAnalyzer.png" alt="Performance Analyzer" />
 
@@ -65,15 +87,15 @@ Before you begin, ensure you have the following:
 
     <img width="800" src="./images/QueryHistory.png" alt="Query history" />
 
-13. Now open the settings of the published semantic model in the **Premium** Power BI workspace.
+15. Now open the settings of the published semantic model in the **Premium** Power BI workspace.
 
-14. Enable the Automatic Aggregations in the semantic model settings. You can set the **Query coverage** according to your needs. This setting will increase the number of user queries analyzed and considered for performance improvement. The higher percentage of Query coverage will lead to more queries being analyzed, hence higher potential benefits, however aggregations training will take longer. 
+16. Enable the Automatic Aggregations in the semantic model settings. You can set the **Query coverage** according to your needs. This setting will increase the number of user queries analyzed and considered for performance improvement. The higher percentage of Query coverage will lead to more queries being analyzed, hence higher potential benefits, however aggregations training will take longer. 
 
     <img width="800" src="./images/AutomaticAggregationsConfiguration.png" alt="Automatic aggregations configuration" />
 
     Click **Apply** to enable the automatic aggregations.
 
-15. Power BI uses an internal query log to train aggregations. Thus, we need to populate the query log. We can achieve this by opening the report and interacting with the report by selecting different **`r_name`** in the Filters pane. Alternatively, you can run a sample [DAX-query](./Query.dax) using [DAX Studio](https://daxstudio.org/). Please make sure to run it multiple times using different values for **`r_name`**.
+17. Power BI uses an internal query log to train aggregations. Thus, we need to populate the query log. We can achieve this by opening the report and interacting with the report by selecting different **`r_name`** in the Filters pane. Alternatively, you can run a sample [DAX-query](./Query.dax) using [DAX Studio](https://daxstudio.org/). Please make sure to run it multiple times using different values for **`r_name`**.
 
     ```
     // DAX Query
@@ -104,7 +126,7 @@ Before you begin, ensure you have the following:
 > [!NOTE]
 > Please note that for better aggregations training you need to run the multiple times by using different filter values for `r_name` and `n_nation` columns.
  
-16. Open Power BI workspace settings → Scheduled refresh and performance optimization. You should be able to see the estimated benefits of the automatic aggregations.
+18. Open Power BI workspace settings → Scheduled refresh and performance optimization. You should be able to see the estimated benefits of the automatic aggregations.
     
     <img width="800" src="./images/AutomaticAggregationsImpact.png" alt="Automatic aggregations impact" />
 
@@ -114,19 +136,19 @@ Before you begin, ensure you have the following:
 
 <img width="800" src="./images/Warning.png" alt="Warning" />
 
-17. Click Train and Refresh Now to start the aggregations training manually. You can also configure scheduled refresh here.
+19. Click Train and Refresh Now to start the aggregations training manually. You can also configure scheduled refresh here.
    
-18. Once the model is trained, Power BI will have aggregated values in in-memory cache. Next time you interact with the report using similar patterns (dimensions, measures, filters) Power BI will leverage cached aggregations to serve the queries and will not send queries to Databricks SQL Warehouse. Hence, you may expect sub-second report refresh performance.
+20. Once the model is trained, Power BI will have aggregated values in in-memory cache. Next time you interact with the report using similar patterns (dimensions, measures, filters) Power BI will leverage cached aggregations to serve the queries and will not send queries to Databricks SQL Warehouse. Hence, you may expect sub-second report refresh performance.
 
-19. Open the report in the browser. Open Performance Analyzer - **Edit** → **View** → **Performance Analyzer** → **Start recording**.
+21. Open the report in the browser. Open Performance Analyzer - **Edit** → **View** → **Performance Analyzer** → **Start recording**.
 
-20. Set the same filter values as previously - **r_name** = **AFRICA**. Click **Refresh visuals**. You should see that the table refresh is now much faster. As shown below, in our environment it took **35ms** to refresh the visuals. That is much faster than **2435ms** that we observed initially. This is due to Power BI hitting automatic aggregations at `{r_name}` granularity.
+22. Set the same filter values as previously - **r_name** = **AFRICA**. Click **Refresh visuals**. You should see that the table refresh is now much faster. As shown below, in our environment it took **35ms** to refresh the visuals. That is much faster than **2435ms** that we observed initially. This is due to Power BI hitting automatic aggregations at `{r_name}` granularity.
 
     <img width="800" src="./images/PostAA-PerformanceAnalyzer.png" alt="Performance Analyzer" />
 
-21. In Databricks Query History, you should also see that there are no new SQL-queries fired by Power BI to render the report page.
+23. In Databricks Query History, you should also see that there are no new SQL-queries fired by Power BI to render the report page.
 
-22. Now, add set another page filter in the report - **n_name** = **ALGERIA**. You should see that the table refresh is slower. In our test it took **3141ms**. This is because Power BI does not have aggregations at `{r_name, n_name}` granularity, therefore Power BI has to retrieve data via DirectQuery.
+24. Now, add set another page filter in the report - **n_name** = **ALGERIA**. You should see that the table refresh is slower. In our test it took **3141ms**. This is because Power BI does not have aggregations at `{r_name, n_name}` granularity, therefore Power BI has to retrieve data via DirectQuery.
 
     <img width="800" src="./images/PostAA-PerformanceAnalyzer2.png" alt="Browser network trace" />
 
@@ -143,4 +165,4 @@ Automatic aggregations require minimal setup, self-optimize over time, and remov
 
 ## Power BI Template 
 
-A Power BI template [Automatic Aggregations.pbit](./Automatic%20Aggregations.pbit) is present in this folder to demonstrate the difference in Power BI behaviour when using *Import*, *DirectQuery*, and *Dual* storage modes outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.
+A Power BI template [Automatic Aggregations.pbit](./Automatic%20Aggregations.pbit) and [Automatic Aggregations.sql](./Automatic%20Aggregations.sql) script are provided in this folder to demonstrate the difference in Power BI behaviour when using *Import*, *DirectQuery*, and *Dual* storage modes outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.

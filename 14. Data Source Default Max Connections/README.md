@@ -38,6 +38,9 @@ Before you begin, ensure you have the following:
     CREATE OR REPLACE TABLE part AS SELECT * FROM samples.tpch.part;
     CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
     CREATE OR REPLACE TABLE lineitem AS SELECT * FROM samples.tpch.lineitem;
+
+    CREATE OR REPLACE VIEW v_nation AS 
+    SELECT *, now() as currenttime FROM nation;
     ```
 
 3. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
@@ -53,12 +56,15 @@ Before you begin, ensure you have the following:
 
 6. Connect to Databricks SQL Warehouse, **`powerbiquickstarts`** catalog, **`tpch`** schema, and add the following tables to the semantic model. All tables should be set to **DirectQuery** storage mode.
     - `region`
-    - `nation`
+    - `v_nation`, use `nation` alias
     - `part`
     - `customer`
     - `orders`
     - `lineitem`
-    
+
+> [!IMPORTANT]
+> Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis.
+
 7. Create table relationships as shown on the picture below.
     <img width="800" src="./images/DataModel.png" alt="Data model" />
 
@@ -126,7 +132,7 @@ Before you begin, ensure you have the following:
 14. In Power BI Desktop, open File → Options and settings → Options → CURRENT FILE → DirectQuery.
 
 15. Set **Maximum connections per data source** as 50.
-<img width="400" src="./images/MaxConnectionsPerDataSource.png" alt="Maximum connections per data source" />
+<img width="300" src="./images/MaxConnectionsPerDataSource.png" alt="Maximum connections per data source" />
 
 16. Save the report to a local pbix-file using a different name - `Data Source Default Max Connections = 50.pbix`.
 
@@ -137,45 +143,45 @@ Before you begin, ensure you have the following:
 In this scenario, we test the first version of the report that uses the default setting `Data Source Default Max Connections = 10`. This enables Power BI to trigger ***up to 10*** SQL queries concurrently in the data source.
 
 
-18. Open the first published report - ***Data Source Default Max Connections = 10***, wait until it's fully loaded.
+1. Open the first published report - ***Data Source Default Max Connections = 10***, wait until it's fully loaded.
     <img width="800" src="./images/ReportPage.png" alt="Report page" />
 
-19. Note that the SQL Warehouse is running **1 cluster**.
+2. Note that the SQL Warehouse is running **1 cluster**.
 
     <img width="400" src="./images/10-SQLWarehouseClusters-1.png" alt="SQL Warehouse" />
 
-20. In Power BI browser tab, open menu More Tools → Developer Tools → Network, apply filter:
+3. In Power BI browser tab, open menu More Tools → Developer Tools → Network, apply filter:
     - Filter = **`query`**
     - Fetch/XHR
 
     <img width="300" src="./images/NetworkTrace.png" alt="Network trace" />
 
 
-21. Using the region slicer, filter the report page by **`AFRICA`**.
+4. Using the region slicer, filter the report page by **`AFRICA`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time (based on the slowest visual refresh) - `18.8s`.
 
     <img width="400" src="./images/10-AFRICA.png" alt="Data Source Default Max Connections = 10, AFRICA" />
 
-22. Clear network trace, and filter the report page by **`AMERICA`**.
+5. Clear network trace, and filter the report page by **`AMERICA`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.8s`.
 
     <img width="400" src="./images/10-AMERICA.png" alt="Data Source Default Max Connections = 10, AMERICA" />
 
-23. Clear network trace, and filter the report page by **`ASIA`**.
+6. Clear network trace, and filter the report page by **`ASIA`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.8s`.
 
     <img width="400" src="./images/10-ASIA.png" alt="Data Source Default Max Connections = 10, ASIA" />
 
-24. Clear network trace, and filter the report page by **`EUROPE`**.
+7. Clear network trace, and filter the report page by **`EUROPE`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.5s`.
 
     <img width="400" src="./images/10-EUROPE.png" alt="Data Source Default Max Connections = 10, EUROPE" />
 
-25. Clear network trace, and filter the report page by **`MIDDLE EAST`**.
+8. Clear network trace, and filter the report page by **`MIDDLE EAST`**.
     - SQL Warehouse is running `1 cluster`.
     - End-to-end page refresh time - `10.7s`.
 
@@ -183,62 +189,51 @@ In this scenario, we test the first version of the report that uses the default 
 
 
 ### Data Source Default Max Connections = 50
+
 In this scenario, we test the second version of the report that uses the adjusted setting `Data Source Default Max Connections = 50`. This enables Power BI to trigger ***up to 50*** SQL queries concurrently in the data source.
 
-26. Recreate test tables in Unity Catalog by replicating tables from **`samples`** catalog.
-    ```sql
-    CREATE OR REPLACE TABLE region AS SELECT * FROM samples.tpch.region;
-    CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.nation;
-    CREATE OR REPLACE TABLE customer AS SELECT * FROM samples.tpch.customer;
-    CREATE OR REPLACE TABLE part AS SELECT * FROM samples.tpch.part;
-    CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
-    CREATE OR REPLACE TABLE lineitem AS SELECT * FROM samples.tpch.lineitem;
-    ```
+1. Restart the SQL Warehouse.
 > [!NOTE]
-> This step is required to purge all cached results from [the query result cache](https://learn.microsoft.com/en-us/azure/databricks/sql/user/queries/query-caching).
+> This step is required to purge all cached data from [the disk cache](https://learn.microsoft.com/en-us/azure/databricks/optimizations/disk-cache).
 
-27. Restart the SQL Warehouse.
-> [!NOTE]
-> This step is required to purge all cached results from [the disk cache](https://learn.microsoft.com/en-us/azure/databricks/optimizations/disk-cache).
+2. Open the other published report - ***Data Source Default Max Connections = 50***, wait until it's fully loaded.
 
-28. Open the other published report - ***Data Source Default Max Connections = 50***, wait until it's fully loaded.
-
-29. Note that the SQL Warehouse is running **3 clusters**.
+3. Note that the SQL Warehouse is running **3 clusters**.
     
     <img width="400" src="./images/50-SQLWarehouseClusters-3.png" alt="SQL Warehouse" />
 
 > [!NOTE]
 > The reason why we observed 3 clusters here is that Power BI triggered 40 SQL queries concurrently, thus SQL Warehouse decided to scale out to 3 clusters to handle such a workload.
 
-30. If Network trace is not yet enabled in Power BI browser tab, open menu More Tools → Developer Tools → Network, apply filter:
+4. If Network trace is not yet enabled in Power BI browser tab, open menu More Tools → Developer Tools → Network, apply filter:
     - Filter = **`query`**
     - Fetch/XHR
 
-31. Clear network trace, and filter the report page by **`AFRICA`**.
+5. Clear network trace, and filter the report page by **`AFRICA`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `13.6s`.
 
     <img width="400" src="./images/50-AFRICA.png" alt="Data Source Default Max Connections = 50, AFRICA" />
 
-32. Clear network trace, and filter the report page by **`AMERICA`**.
+6. Clear network trace, and filter the report page by **`AMERICA`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `9.1s`.
 
     <img width="400" src="./images/50-AMERICA.png" alt="Data Source Default Max Connections = 50, AMERICA" />
 
-33. Clear network trace, filter the report page by **`ASIA`**.
+7. Clear network trace, filter the report page by **`ASIA`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `6.9s`.
 
     <img width="400" src="./images/50-ASIA.png" alt="Data Source Default Max Connections = 50, ASIA" />
 
-34. Clear network trace, filter the report page by **`EUROPE`**.
+8. Clear network trace, filter the report page by **`EUROPE`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `7.6s`.
 
     <img width="400" src="./images/50-EUROPE.png" alt="Data Source Default Max Connections = 50, EUROPE" />
 
-35. Clear network trace, filter the report page by **`MIDDLE EAST`**.
+9. Clear network trace, filter the report page by **`MIDDLE EAST`**.
     - SQL Warehouse is running `3 clusters`.
     - End-to-end page refresh time - `5.4s`.
 

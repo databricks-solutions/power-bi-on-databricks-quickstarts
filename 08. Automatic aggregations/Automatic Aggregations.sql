@@ -9,18 +9,18 @@ USE SCHEMA tpch;
 
 
 -- =====================================================================================================================
--- 2. Create test tables
+-- 2. Create test tables 
 -- =====================================================================================================================
 
-CREATE OR REPLACE TABLE region AS SELECT * FROM samples.tpch.region;
+-- Create test tables based on samples.tpch dataset
+CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.region;
 CREATE OR REPLACE TABLE nation AS SELECT * FROM samples.tpch.nation;
 CREATE OR REPLACE TABLE customer AS SELECT * FROM samples.tpch.customer;
-CREATE OR REPLACE TABLE part AS SELECT * FROM samples.tpch.part;
 CREATE OR REPLACE TABLE orders AS SELECT * FROM samples.tpch.orders;
-CREATE OR REPLACE TABLE lineitem AS SELECT * FROM samples.tpch.lineitem;
 
 CREATE OR REPLACE VIEW v_nation AS 
 SELECT *, now() as currenttime FROM nation;
+
 
 -- =====================================================================================================================
 -- 3. Cleanup

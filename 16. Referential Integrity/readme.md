@@ -126,7 +126,7 @@ Before you begin, ensure you have the following:
     | tpch             | v_lineitem | DirectQuery  | lineitem_2 |
 
 > [!IMPORTANT]
-> Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, we will be able to analyze query profiles even after multiple report refreshes.
+> Here we use `v_lineitem` view, not `lineitem` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis.
 
 9. If relationships are not created automatically, create table relationships as follows.
    - **`part_1`** → **`lineitem_1`** 
@@ -320,4 +320,4 @@ Using the same data types for join key columns and [Assume referential integrity
 
 ## Power BI Template 
 
-A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) is present in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity.  To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`**, **`Schema1`** and **`Schema2`** names that correspond to the environment set up in the instructions above.
+A Power BI template [Referential Integrity.pbit](./Referential%20Integrity.pbit) as well [Referential Integrity.sql](./Referential%20Integrity.sql) script are provided in this folder to demonstrate the difference in Power BI behaviour with and without referential integrity. To use the templates, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`**, along with the **`Catalog`**, **`Schema1`** and **`Schema2`** names that correspond to the environment set up in the instructions above.

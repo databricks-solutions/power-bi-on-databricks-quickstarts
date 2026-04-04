@@ -124,7 +124,8 @@ Before you begin, ensure you have the following:
 15. Open Performance Analyzer. **Optimize** → **Performance analyzer** → **Start recording**.
 
 16. Refresh the report multiple times by clicking **Refresh visuals**. Note the refresh durations for the table visual.
-        <img width="300" src="./images/06.png" alt="Performance analyzer" />
+    
+    <img width="300" src="./images/06.png" alt="Performance analyzer" />
 
 17. Open Databricks workspace UI → **Query History**. Explore SQL-queries triggered by Power BI.
 
