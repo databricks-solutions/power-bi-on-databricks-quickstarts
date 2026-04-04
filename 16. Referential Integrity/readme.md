@@ -172,12 +172,15 @@ Before you begin, ensure you have the following:
 
 16. Open Performance Analyzer - **Optimize** → **Performance Analyzer** → **Start Recording** → **Refresh visuals**. Wait until refresh is completed.
 
-17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
+17. Open Databricks Query History. Notice the latest SQL-query from Power BI. Open the query profile.
+
+    <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
+
+18. We can see that the total tasks time was **2.54s** and bytes read **455MB**.
 
 > [!NOTE]
 > Total tasks time is the combined time it took to execute the query across all cores of all nodes. This is not the same as total wall-clock duration that is the total elapsed time between the start of scheduling and the end of the query execution.
 
-    <img width="400" src="./images/QueryProfile1.png" alt="Query profile - no integrity" />
 
 
 20. Check also the SQL-query text.
