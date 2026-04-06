@@ -108,4 +108,4 @@ Using parameters in Power BI when connecting to Databricks SQL offers significan
 
 ## Power BI template 
 
-A Power BI template [Connection Parameters.pbit](./Connection%20Parameters.pbit) is present in this folder as a reference implementation. To use the template, simply enter your Databricks SQL Warehouse's **`Hostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.
+A Power BI template [Connection Parameters.pbit](./Connection%20Parameters.pbit) is present in this folder as a reference implementation. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.
