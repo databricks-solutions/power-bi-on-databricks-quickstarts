@@ -12,7 +12,7 @@ Before you begin, ensure you have the following:
 - [PowerShell Core](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 - [Microsoft Entra ID Service Principal](https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals) which has permissions to access target Power BI workspace, dataset, gateway
     - `ClientID`, `Secret`, and `TenantID` must be stored as [Databricks secrets](https://docs.databricks.com/aws/en/security/secrets/)
-    - Entra ID Service Principal must have permisions to change settings of the dataset and the gateway (if gateway is in use)
+    - Entra ID Service Principal must have permissions to change settings of the dataset and the gateway (if gateway is in use)
 
 > [!NOTE]
 > This code utilizes the [Power BI REST API](https://learn.microsoft.com/en-us/rest/api/power-bi/) as described in the official Power BI REST API documentation and does not require installation of additional packages or libraries.
@@ -107,7 +107,7 @@ if (-not (Get-Command databricks -ErrorAction SilentlyContinue)) {
 ```
 
 
-#### 2. Validate Databricks CLI verion
+#### 2. Validate Databricks CLI version
 
 ``` powershell
 $version = databricks -v | Select-String -Pattern '\d+\.\d+\.\d+' | ForEach-Object { $_.Matches[0].Value }

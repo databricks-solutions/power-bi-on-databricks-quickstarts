@@ -15,7 +15,7 @@ Before you begin, ensure you have the following:
 
 
 
-## Step by Step Walkthrough
+## Step-by-step walkthrough
 
 1. Open Power BI Desktop → **"Home"** → **"Get Data"** → **"More..."**.
 
@@ -26,7 +26,7 @@ Before you begin, ensure you have the following:
    - **HTTP Path**: Enter the HTTP path value  from Databricks SQL Warehouse connection details tab.
 
 > [!TIP]
-> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration expeience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to paramterize your connection string, you can refer to [Connection Parameters](/01.%20Connection%20Parameters/) article.
+> We recommend parameterizing your connections. This really helps ease out the Power BI development and administration experience as you can easily switch between different environments, i.e., Databricks Workspaces and SQL Warehouses. For details on how to parameterize your connection string, you can refer to [Connection Parameters](../01.%20Connection%20Parameters/) article.
 
 4. Connect to **`samples`** catalog, **`tpch`** schema.
 
@@ -64,7 +64,7 @@ Before you begin, ensure you have the following:
 
     <img width="600" src="./images/03.png" alt="Report layout" />
 
-    The report generates the following SQL-query.
+    The report generates the following SQL query.
     ```sql
     select ...
     from
@@ -90,5 +90,6 @@ Using [Dynamic M query parameters in Power BI](https://learn.microsoft.com/en-us
 
 
 
-## Power BI Template 
+## Power BI template 
+
 A Power BI template [Dynamic M Query Parameters.pbit](./Dynamic%20M%20Query%20Parameters.pbit) is present in this folder to demonstrate the approach of Dynamic M query parameters outlined above. To use the template, simply enter your Databricks SQL Warehouse's **`ServerHostname`** and **`HttpPath`** that correspond to the environment set up in the instructions above. The template uses **`samples`** catalog, therefore you don't need to prepare any additional dataset.

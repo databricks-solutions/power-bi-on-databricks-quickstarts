@@ -28,7 +28,7 @@ ALTER TABLE customer DROP PRIMARY KEY IF EXISTS;
 ALTER TABLE nation DROP PRIMARY KEY IF EXISTS;
 ALTER TABLE region DROP PRIMARY KEY IF EXISTS;
 
-CREATE OR REPLACE VIEW v_lineitems as
+CREATE OR REPLACE VIEW v_lineitem_orders as
 SELECT 
     l_orderkey, l_partkey, l_suppkey, l_quantity, l_tax, l_discount
     , o_orderkey, o_custkey, o_totalprice, o_orderstatus, o_orderdate, o_orderpriority

@@ -12,7 +12,7 @@ USE SCHEMA tpch;
 -- 2. Create test tables with COLLATION
 -- =====================================================================================================================
 
-CREATE OR REPLACE TABLE TABLE customer_lcase (
+CREATE OR REPLACE TABLE customer_lcase (
   c_custkey bigint,
   c_name string,
   c_address string,
