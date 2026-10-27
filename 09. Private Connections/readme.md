@@ -16,8 +16,7 @@ While Power BI offers these two options, many customers prefer not to manage add
 
 
 ## Power BI connectivity via IP Access List
-For more information on configuring Databricks IP Access Lists to secure Power BI connectivity to Databricks workspaces, see [Power BI connectivity via IP Access List](./Power%20BI%20Connectivity%20via%20IP%20ACLs.md) page.
-
+Since the introduction of [Databricks context-based ingress control](https://learn.microsoft.com/en-us/azure/databricks/security/network/front-end/context-based-ingress), we recommend using it to secure Power BI access as it significantly reduces operational overhead while hardening overall security posture.
 
 ## Power BI connectivity via Gateways
 For more information on configuring Power BI gateways to secure Power BI connectivity to Databricks workspaces, see [Power BI connectivity via Gateways](./Power%20BI%20connectivity%20via%20Gateways.md) page.
