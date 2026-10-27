@@ -1,5 +1,9 @@
 
-# Power BI Connectivity via IP Access List
+# DEPRECATED - Power BI Connectivity via IP Access List
+
+> [!IMPORTANT]
+> We recommend adopting [Databricks context-based ingress control](https://learn.microsoft.com/en-us/azure/databricks/security/network/front-end/context-based-ingress) to secure Power BI access rather than maintaining custom IP ACL scripts, as doing so significantly reduces operational overhead while hardening overall security posture. Custom scripts that poll and update dynamic Azure or Power BI service IP ranges are inherently brittle, prone to sync latency that causes intermittent outages, and administrative maintenance headaches. In contrast, context-based ingress control provides a native, policy-driven boundary that validates connection context and leverages managed service tags or private endpoints, eliminating the security risks of stale IP allowances and freeing engineering teams from fragile script maintenance.
+> Therefore, the implementation below is no longer recommended and provided for informational purposes only. 
 
 ## Overview
 To enable the Power BI Service connectivity to a private Databricks workspace using IP Access Lists follow these steps.
