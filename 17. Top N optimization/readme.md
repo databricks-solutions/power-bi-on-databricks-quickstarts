@@ -86,7 +86,7 @@ Before you begin, ensure you have the following:
 
 9. The semantic model should look as shown below.
 
-    <img width="600" src="./images/DataModel.png" alt="Data model" />
+    <img width="800" src="./images/DataModel.png" alt="Data model" />
 
 
 #### Test report
@@ -102,7 +102,7 @@ Before you begin, ensure you have the following:
 
 13. The report page should look as follows. The report shows the decomposition of the total price by regions and market segments.
 
-    <img width="600" src="./images/OverviewPage.png" alt="Overview report page" />
+    <img width="400" src="./images/OverviewPage.png" alt="Overview report page" />
 
 
 ### Top N - builtin
@@ -115,7 +115,7 @@ Before you begin, ensure you have the following:
     - `r_name`
     - `c_mktsegment`
     
-        <img width="200" src="./images/DrillThroughColumns.png" alt="Drillthrough columns" />
+    <img width="200" src="./images/DrillThroughColumns.png" alt="Drillthrough columns" />
 
 17. Assign arbitrary filter values for these columns. E.g. `EUROPE` and `AUTOMOBILE`.
  
@@ -133,7 +133,7 @@ Before you begin, ensure you have the following:
     - Show items - `Top 10`
     - By value - `Sum of o_totalprice`
         
-        <img width="200" src="./images/TopNfilter.png" alt="Top N filter" />
+    <img width="200" src="./images/TopNfilter.png" alt="Top N filter" />
 
 20. Now, on the `Overview` report page in the decomposition tree, we can drill through to the detailed page to see top 10 customers for the selected region and market segment.
 
@@ -146,6 +146,7 @@ Before you begin, ensure you have the following:
 22. Now, let's explore Databricks query history. Power BI executed 2 queries to retrieve the top 10 customers in **EUROPE** for **AUTOMOBILE** market segment.
     <details>
     <summary>TopN v1 - query #1</summary>
+
     ```sql
     select
     `c_name`,
@@ -228,12 +229,14 @@ Before you begin, ensure you have the following:
     not `C1` is null
     limit 1000001
     ```
+
     </details>
 
     <img width="400" src="./images/QueryProfile-v1-1.png" alt="Query Profile v1 - #1" />
 
     <details>
     <summary>TopN v1 - query #2</summary>
+
     ```sql
     select
     `c_name`,
@@ -330,6 +333,7 @@ Before you begin, ensure you have the following:
     not `C1` is null
     limit 1000001
     ```
+    
     </details>
 
     <img width="400" src="./images/QueryProfile-v1-2.png" alt="Query Profile v1 - #2" />
@@ -360,10 +364,7 @@ The approach is based on [Dynamic M query parameters](../06.%20Dynamic%20M%20Que
 
 28. Duplicate any existing table, e.g., `orders`. Select the new table, name it `topN_customers`. Click **Advanced Editor**.
 
-29. Replace the code for the new table using the following.
-
-> [!NOTE]
-> The code below uses `ServerHostname`, `HttpPath`, `Catalog` and `Schema` parameters. If you don't use these parameters, replace them in the code with actual values. 
+29. Replace the code for the new table using the following snippet. The code below uses `ServerHostname`, `HttpPath`, `Catalog` and `Schema` parameters. If you don't use these parameters, replace them in the code with actual values. 
 
     ```
     let
@@ -439,6 +440,7 @@ The approach is based on [Dynamic M query parameters](../06.%20Dynamic%20M%20Que
 
     <details>
     <summary>TopN v2 - query #1</summary>
+
     ```sql
     select
     *
@@ -471,11 +473,13 @@ The approach is based on [Dynamic M query parameters](../06.%20Dynamic%20M%20Que
     where
     0 = 1 
     ```
+
     </details>
     <img width="400" src="./images/QueryProfile-v2-1.png" alt="Query Profile v2 - #1" />
 
     <details>
     <summary>TopN v2 - query #2</summary>
+
     ```sql
     select
     `c_name`,
@@ -523,6 +527,7 @@ The approach is based on [Dynamic M query parameters](../06.%20Dynamic%20M%20Que
     where
     not `C1` is null
     limit 1000001
+    
     ```
     </details>
 
