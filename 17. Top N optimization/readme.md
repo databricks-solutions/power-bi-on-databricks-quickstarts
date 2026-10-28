@@ -72,9 +72,9 @@ Before you begin, ensure you have the following:
     | Schema | Table      | Storage Mode | Alias     |
     | ------ | ---------- | ------------ | --------- |
     | tpch   | v_orders   | DirectQuery  | orders    |
-    | tpch   | customer   | Dual         | customer  |
-    | tpch   | nation     | Dual         | nation    |
-    | tpch   | region     | Dual         | region    |
+    | tpch   | customer   | DirectQuery  | customer  |
+    | tpch   | nation     | DirectQuery  | nation    |
+    | tpch   | region     | DirectQuery  | region    |
 
 > [!IMPORTANT]
 > Here we use `v_orders` view, not `orders` table. The view uses `now()` function that prevents QRC (Query Result Caching). Therefore, for every query execution we will have non-cached query profile with execution metrics available for analysis. We do not recommend using this in production implementations as this hinders performance.
